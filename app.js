@@ -11,7 +11,7 @@ const lerp = (a, b, t) => a + (b - a) * t;
 const clamp = (x, a, b) => Math.min(b, Math.max(a, x));
 const ease = (x) => { x = clamp(x, 0, 1); return x * x * (3 - 2 * x); };
 const SLOW = 0.75; // global animation speed (1 = original)
-const AUTO_SEC = 20; // seconds per scene in presentation mode
+const AUTO_SEC = 40; // seconds per scene in presentation mode
 const REDUCE = matchMedia('(prefers-reduced-motion: reduce)').matches;
 if (REDUCE) document.documentElement.classList.add('reduce');
 
