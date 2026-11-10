@@ -10,6 +10,7 @@ const $$ = (s, r = document) => [...r.querySelectorAll(s)];
 const lerp = (a, b, t) => a + (b - a) * t;
 const clamp = (x, a, b) => Math.min(b, Math.max(a, x));
 const ease = (x) => { x = clamp(x, 0, 1); return x * x * (3 - 2 * x); };
+const SLOW = 0.75; // global animation speed (1 = original)
 const REDUCE = matchMedia('(prefers-reduced-motion: reduce)').matches;
 if (REDUCE) document.documentElement.classList.add('reduce');
 
@@ -289,24 +290,24 @@ let flyToken = 0;
 function flyIn(panel, token) {
   const els = $$('.fly', panel);
   if (REDUCE) { els.forEach((e) => e.classList.add('shown')); return; }
-  const r = mulberry(Math.floor(Math.random() * 1e6)), step = Math.max(55, Math.min(140, 1600 / els.length));
+  const r = mulberry(Math.floor(Math.random() * 1e6)), step = Math.max(55, Math.min(140, 1600 / els.length)) / SLOW;
   els.forEach((el, i) => {
     setTimeout(() => {
       if (token !== flyToken || !panel.classList.contains('on')) return;
       const b = el.getBoundingClientRect(); if (!b.width) { el.classList.add('shown'); return; }
       const [sx, sy] = edgePoint(r), tx = b.left, ty = b.top + b.height / 2;
       el.classList.add('shown');
-      el.animate([{ transform: `translate(${sx - tx}px,${sy - ty}px)` }, { transform: 'none' }], { duration: 850, easing: 'cubic-bezier(.2,.75,.25,1)' });
+      el.animate([{ transform: `translate(${sx - tx}px,${sy - ty}px)` }, { transform: 'none' }], { duration: 850 / SLOW, easing: 'cubic-bezier(.2,.75,.25,1)' });
       const col = CCOL[Math.floor(r() * CCOL.length)];
       const c = document.createElement('div'); c.innerHTML = cursorSVG(col); const sv = c.firstChild; curLayer.appendChild(sv);
       const [ex, ey] = edgePoint(r);
-      const a = sv.animate([{ transform: `translate(${sx - 6}px,${sy - 4}px)` }, { transform: `translate(${tx - 6}px,${ty - 4}px)` }], { duration: 850, easing: 'cubic-bezier(.2,.75,.25,1)', fill: 'forwards' });
+      const a = sv.animate([{ transform: `translate(${sx - 6}px,${sy - 4}px)` }, { transform: `translate(${tx - 6}px,${ty - 4}px)` }], { duration: 850 / SLOW, easing: 'cubic-bezier(.2,.75,.25,1)', fill: 'forwards' });
       a.onfinish = () => {
         const ring = document.createElement('div'); ring.className = 'ring'; ring.style.left = (tx - 6) + 'px'; ring.style.top = (ty - 4) + 'px'; ring.style.borderColor = col; curLayer.appendChild(ring);
-        ring.animate([{ transform: 'scale(1)', opacity: 1 }, { transform: 'scale(3.4)', opacity: 0 }], { duration: 420 }).onfinish = () => ring.remove();
-        sv.animate([{ transform: `translate(${tx - 6}px,${ty - 4}px)`, opacity: 1 }, { transform: `translate(${ex}px,${ey}px)`, opacity: 0 }], { duration: 650, delay: 120, easing: 'ease-in', fill: 'forwards' }).onfinish = () => sv.remove();
+        ring.animate([{ transform: 'scale(1)', opacity: 1 }, { transform: 'scale(3.4)', opacity: 0 }], { duration: 420 / SLOW }).onfinish = () => ring.remove();
+        sv.animate([{ transform: `translate(${tx - 6}px,${ty - 4}px)`, opacity: 1 }, { transform: `translate(${ex}px,${ey}px)`, opacity: 0 }], { duration: 650 / SLOW, delay: 120 / SLOW, easing: 'ease-in', fill: 'forwards' }).onfinish = () => sv.remove();
       };
-    }, 350 + i * step);
+    }, 350 / SLOW + i * step);
   });
 }
 
@@ -373,19 +374,19 @@ $('#bReal').onclick = () => { holoOverride = 0; syncSeg(); };
 $('#bHolo').onclick = () => { holoOverride = 1; syncSeg(); };
 
 /* ---------------- loop ---------------- */
-let holo = 0, sat = 0, last = performance.now();
+let holo = 0, sat = 0, last = performance.now(), animT = 0;
 const camEye = camera.position.clone(), camTgt = new THREE.Vector3(0, 3, 0), camUp = new THREE.Vector3(0, 1, 0);
 const tmpC = new THREE.Color();
 $('#loading').remove();
 go(0);
 function frameLoop(now) {
-  const dt = Math.min(0.05, (now - last) / 1000); last = now; tScene += dt;
+  const rdt = Math.min(0.05, (now - last) / 1000); last = now; const dt = rdt * SLOW; tScene += dt; animT += dt;
   const S = SCENES[cur];
   const hT = holoOverride ?? holoTarget;
   holo += (hT - holo) * (1 - Math.exp(-dt * (REDUCE ? 20 : 1.4)));
   if (Math.abs(hT - holo) < 0.002) holo = hT;
   sat += ((S.sat || 0) - sat) * (1 - Math.exp(-dt * 2.5));
-  U.uHolo.value = holo; U.uSat.value = sat; U.uTime.value = now / 1000;
+  U.uHolo.value = holo; U.uSat.value = sat; U.uTime.value = animT;
   U.uScanX.value = holo <= 0.001 ? -1e3 : holo >= 0.999 ? 1e3 : lerp(-SIZE * 0.62, SIZE * 0.62, holo);
   world.scale.y = lerp(1, 1.7, ease(holo));
   const k = 1 - Math.exp(-dt * 1.5);
@@ -395,7 +396,7 @@ function frameLoop(now) {
   riverMat.uniforms.uWidth.value = lerp(0.14, 0.42, Math.max(sat, holo * 0.6));
   stars.material.opacity = holo;
   bloom.strength = 0.95 * holo; bloom.enabled = holo > 0.02;
-  perf(dt);
+  perf(rdt);
   if (S.micro) { micro.draw(dt); requestAnimationFrame(frameLoop); return; }
   if (exploring) controls.update();
   else if (S.cam) {
