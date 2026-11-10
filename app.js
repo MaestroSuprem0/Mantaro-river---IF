@@ -32,7 +32,8 @@ const W = (u, v, y) => new THREE.Vector3((u - 0.5) * SIZE, y, (v - 0.5) * SIZE);
 /* ---------------- renderer ---------------- */
 const canvas = $('#gl');
 const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, powerPreference: 'high-performance' });
-renderer.setPixelRatio(Math.min(devicePixelRatio, 1.75));
+const PR_MAX = Math.min(devicePixelRatio, 1.5); let PR = PR_MAX;
+renderer.setPixelRatio(PR);
 renderer.setSize(innerWidth, innerHeight, false);
 renderer.outputColorSpace = THREE.LinearSRGBColorSpace;
 const scene = new THREE.Scene();
@@ -186,7 +187,10 @@ const stars = (() => {
 const composer = new EffectComposer(renderer);
 composer.addPass(new RenderPass(scene, camera));
 const bloom = new UnrealBloomPass(new THREE.Vector2(innerWidth, innerHeight), 0, 0.55, 0.32);
+{ const set = bloom.setSize.bind(bloom); bloom.setSize = (w, h) => set(Math.round(w / 2), Math.round(h / 2)); }
+bloom.enabled = false;
 composer.addPass(bloom); composer.addPass(new OutputPass());
+composer.setPixelRatio(PR);
 addEventListener('resize', () => {
   camera.aspect = innerWidth / innerHeight; camera.updateProjectionMatrix();
   renderer.setSize(innerWidth, innerHeight, false); composer.setSize(innerWidth, innerHeight); micro.resize();
@@ -390,7 +394,8 @@ function frameLoop(now) {
   U.uFogDist.value = lerp(U.uFogDist.value, lookTarget.fogDist, k);
   riverMat.uniforms.uWidth.value = lerp(0.14, 0.42, Math.max(sat, holo * 0.6));
   stars.material.opacity = holo;
-  bloom.strength = 0.95 * holo;
+  bloom.strength = 0.95 * holo; bloom.enabled = holo > 0.02;
+  perf(dt);
   if (S.micro) { micro.draw(dt); requestAnimationFrame(frameLoop); return; }
   if (exploring) controls.update();
   else if (S.cam) {
@@ -413,7 +418,7 @@ function makeMicro(cvs) {
   const g = cvs.getContext('2d');
   let w, h, sc, sites = [], ions = [], spawnT = 0, active = false, mt = 0;
   function resize() {
-    const dpr = Math.min(devicePixelRatio, 2); w = innerWidth; h = innerHeight; cvs.width = w * dpr; cvs.height = h * dpr; g.setTransform(dpr, 0, 0, dpr, 0, 0);
+    const dpr = Math.min(devicePixelRatio, 1.5); w = innerWidth; h = innerHeight; cvs.width = w * dpr; cvs.height = h * dpr; g.setTransform(dpr, 0, 0, dpr, 0, 0);
     sc = Math.min(w / 1920, h / 1080) * 1.15; layout();
   }
   let rings = [];
@@ -496,6 +501,21 @@ function makeMicro(cvs) {
   }
   resize();
   return { draw, show, resize };
+}
+
+/* adaptive quality: lower the render resolution when frames are slow */
+let pf = 0, pt = 0, settle = 2.5;
+function perf(dt) {
+  if (document.hidden) return;
+  settle -= dt; if (settle > 0) return;
+  pf++; pt += dt;
+  if (pf >= 90) {
+    const ms = pt / pf * 1000; pf = 0; pt = 0;
+    if (ms > 24 && PR > 0.6) {
+      PR = Math.max(0.6, PR - 0.25); renderer.setPixelRatio(PR); composer.setPixelRatio(PR);
+      renderer.setSize(innerWidth, innerHeight, false); composer.setSize(innerWidth, innerHeight); settle = 1.5;
+    }
+  }
 }
 
 /* ---------------- utils ---------------- */

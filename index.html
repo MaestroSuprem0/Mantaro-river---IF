@@ -7,7 +7,7 @@
 <style>
 /* Layout: a fixed 3D stage (WebGL relief + microscope canvas) under a scrolling story; HUD panels float over the stage. Single dark "night survey" look. */
 :root{
-  --night:#050b16; --deep:#0a1830; --panel:rgba(6,20,38,.80); --rule:rgba(111,210,255,.32);
+  --night:#050b16; --deep:#0a1830; --panel:rgba(6,20,38,.90); --rule:rgba(111,210,255,.32);
   --cyan:#6fd2ff; --text:#e8eef5; --muted:#93a3b8; --lime:#b6f36b; --lead:#ff6b6b; --amber:#f5b83d; --copper:#4fd1c5;
   --f-display:'Sora','Segoe UI',system-ui,sans-serif; --f-body:'Inter',system-ui,-apple-system,sans-serif; --f-mono:'JetBrains Mono',ui-monospace,Menlo,monospace;
   color-scheme:dark;
@@ -33,7 +33,7 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 
 /* HUD */
 #hud{position:fixed;inset:0;pointer-events:none;z-index:5}
-.panel{position:absolute;background:var(--panel);border:1px solid var(--rule);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);opacity:0;transition:opacity .45s;min-width:0}
+.panel{position:absolute;background:var(--panel);border:1px solid var(--rule);opacity:0;transition:opacity .45s;min-width:0}
 .panel.on{opacity:1}
 .panel h4{margin:0;font:600 10.5px/1 var(--f-body);letter-spacing:.2em;text-transform:uppercase;color:var(--text);background:rgba(30,110,170,.42);padding:7px 10px}
 .panel .body{padding:10px 12px 12px;display:grid;gap:8px}
@@ -73,7 +73,7 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 /* story */
 main{position:relative;z-index:6;pointer-events:none}
 .step{min-height:100vh;display:flex;align-items:flex-end;justify-content:center;padding-block:0 14vh;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
-.story{pointer-events:auto;max-width:540px;background:rgba(5,12,24,.84);border:1px solid var(--rule);padding:16px 20px;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.story{pointer-events:auto;max-width:540px;background:rgba(5,12,24,.92);border:1px solid var(--rule);padding:16px 20px}
 .story .eyebrow{font:600 11px/1 var(--f-body);letter-spacing:.22em;text-transform:uppercase;color:var(--cyan);margin-bottom:8px}
 .story h2{font:500 22px/1.25 var(--f-display);margin:0 0 6px;text-wrap:balance}
 .story p{margin:0;color:#c9d4e2}
@@ -260,12 +260,12 @@ main{position:relative;z-index:6;pointer-events:none}
     </div>
   </section>
   <!-- scene 11: evidence -->
-  <div class="panel" data-s="11" style="left:50%;top:46%;transform:translate(-50%,-50%);width:min(1100px,calc(100vw - 32px));background:none;border:0;backdrop-filter:none;-webkit-backdrop-filter:none">
+  <div class="panel" data-s="11" style="left:50%;top:46%;transform:translate(-50%,-50%);width:min(1100px,calc(100vw - 32px));background:none;border:0">
     <div id="evid"></div>
     <div class="src fly" style="text-align:center;margin-top:12px">Valores medidos en condiciones distintas: no se comparan entre sí.</div>
   </div>
   <!-- scene 12: closing -->
-  <div class="panel" data-s="12" style="left:50%;top:42%;transform:translate(-50%,-50%);width:min(900px,calc(100vw - 32px));text-align:center;background:none;border:0;backdrop-filter:none;-webkit-backdrop-filter:none">
+  <div class="panel" data-s="12" style="left:50%;top:42%;transform:translate(-50%,-50%);width:min(900px,calc(100vw - 32px));text-align:center;background:none;border:0">
     <div class="fly" style="font:300 clamp(18px,2.4vw,28px)/1.2 var(--f-display);letter-spacing:.12em">SI OTROS ALMIDONES RETIENEN PLOMO,</div>
     <div class="fly c-lime" style="font:600 clamp(28px,4.6vw,56px)/1.15 var(--f-display);margin-top:8px;text-wrap:balance">¿por qué no el del árbol de pan?</div>
   </div>
