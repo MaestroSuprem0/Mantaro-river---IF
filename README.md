@@ -7,7 +7,7 @@ Integrantes: Samuel Benjamín Barrón Márquez, Isai Severiano Felix Sopla, Luca
 
 ## Cómo usarlo
 - **Recorrer bajando:** cada sección cambia la escena.
-- **Presentar:** pantalla completa; avanzar con clic, flecha derecha o espacio; retroceder con flecha izquierda; salir con Esc.
+- **Presentar:** pantalla completa; avanza solo cada 20 segundos (pausa con el botón ❚❚ o la tecla P); avanzar a mano con clic, flecha derecha o espacio; retroceder con flecha izquierda; salir con Esc.
 - **Explorar 3D:** girar y acercar el relieve con el mouse.
 - **Realista / Holograma:** cambiar el estilo del relieve en cualquier escena.
 

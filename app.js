@@ -11,6 +11,7 @@ const lerp = (a, b, t) => a + (b - a) * t;
 const clamp = (x, a, b) => Math.min(b, Math.max(a, x));
 const ease = (x) => { x = clamp(x, 0, 1); return x * x * (3 - 2 * x); };
 const SLOW = 0.75; // global animation speed (1 = original)
+const AUTO_SEC = 20; // seconds per scene in presentation mode
 const REDUCE = matchMedia('(prefers-reduced-motion: reduce)').matches;
 if (REDUCE) document.documentElement.classList.add('reduce');
 
@@ -313,11 +314,12 @@ function flyIn(panel, token) {
 
 /* ---------------- scene switching ---------------- */
 const panels = $$('#hud [data-s]');
+let autoT = 0, autoOn = true;
 let cur = -1, tScene = 0, holoTarget = 0, exploring = false, holoOverride = null;
 const frame = $('#frame'), photo = $('#photo'), micro = makeMicro($('#micro'));
 function go(i) {
   i = clamp(i, 0, SCENES.length - 1); if (i === cur) return;
-  cur = i; tScene = 0; flyToken++;
+  cur = i; tScene = 0; flyToken++; autoT = 0;
   const S = SCENES[i];
   $('#count').textContent = `${i + 1} / ${SCENES.length}`;
   lookTarget = LOOKS[S.look || 'golden'];
@@ -345,18 +347,21 @@ $$('[data-scene]').forEach((s) => io.observe(s));
 /* presentation mode */
 function present(on) {
   document.body.classList.toggle('present', on);
-  if (on) { try { document.documentElement.requestFullscreen?.().catch(() => {}); } catch (e) {} const c = cur; cur = -1; go(Math.max(c, 0)); }
+  if (on) { try { document.documentElement.requestFullscreen?.().catch(() => {}); } catch (e) {} setAuto(true); const c = cur; cur = -1; go(Math.max(c, 0)); }
   else { try { document.fullscreenElement && document.exitFullscreen(); } catch (e) {} $(`.step[data-scene="${cur}"]`)?.scrollIntoView({ block: 'center' }); }
 }
 $('#bPresent').onclick = () => present(true); $('#bStart').onclick = () => present(true);
 $('#bScroll').onclick = () => $('.step[data-scene="1"]').scrollIntoView({ behavior: 'smooth', block: 'center' });
 $('#bExit').onclick = () => present(false);
 $('#bNext').onclick = () => go(cur + 1); $('#bPrev').onclick = () => go(cur - 1);
+function setAuto(on) { autoOn = on; autoT = 0; const b = $('#bAuto'); b.textContent = on ? '❚❚' : '▶'; b.setAttribute('aria-label', on ? 'Pausar avance automático' : 'Reanudar avance automático'); b.setAttribute('aria-pressed', on); }
+$('#bAuto').onclick = () => setAuto(!autoOn);
 addEventListener('keydown', (e) => {
   if (!document.body.classList.contains('present')) return;
   if (['ArrowRight', 'ArrowDown', 'PageDown', ' ', 'Enter'].includes(e.key)) { e.preventDefault(); go(cur + 1); }
   if (['ArrowLeft', 'ArrowUp', 'PageUp', 'Backspace'].includes(e.key)) { e.preventDefault(); go(cur - 1); }
   if (e.key === 'Escape') present(false);
+  if (e.key === 'p' || e.key === 'P') setAuto(!autoOn);
 });
 canvas.addEventListener('click', () => { if (document.body.classList.contains('present') && !exploring) go(cur + 1); });
 $('#micro').addEventListener('click', () => { if (document.body.classList.contains('present')) go(cur + 1); });
@@ -380,7 +385,7 @@ const tmpC = new THREE.Color();
 $('#loading').remove();
 go(0);
 function frameLoop(now) {
-  const rdt = Math.min(0.05, (now - last) / 1000); last = now; const dt = rdt * SLOW; tScene += dt; animT += dt;
+  const raw = Math.min(1, (now - last) / 1000), rdt = Math.min(0.05, raw); last = now; const dt = rdt * SLOW; tScene += dt; animT += dt;
   const S = SCENES[cur];
   const hT = holoOverride ?? holoTarget;
   holo += (hT - holo) * (1 - Math.exp(-dt * (REDUCE ? 20 : 1.4)));
@@ -397,6 +402,9 @@ function frameLoop(now) {
   stars.material.opacity = holo;
   bloom.strength = 0.95 * holo; bloom.enabled = holo > 0.02;
   perf(rdt);
+  const presenting = document.body.classList.contains('present');
+  if (presenting && autoOn && !exploring && cur < SCENES.length - 1) { autoT += raw; if (autoT >= AUTO_SEC) go(cur + 1); }
+  $('#autobar').style.transform = `scaleX(${presenting && autoOn && cur < SCENES.length - 1 ? Math.min(autoT / AUTO_SEC, 1) : 0})`;
   if (S.micro) { micro.draw(dt); requestAnimationFrame(frameLoop); return; }
   if (exploring) controls.update();
   else if (S.cam) {
