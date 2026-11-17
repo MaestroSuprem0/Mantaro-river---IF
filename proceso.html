@@ -1,0 +1,298 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Del almidón al hidrogel</title>
+<meta name="description" content="Parte 2: cómo se sintetiza un hidrogel de almidón y qué retienen de plomo la papa, el sagú, la yuca y la alcachofa; el árbol de pan como hipótesis.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap">
+<style>
+/* Parte 2: a fixed drawing stage (canvas) under a scrolling story. Minimal, paper-and-leaf palette. */
+:root{
+  --paper:#f4f2e9; --card:#fcfbf6; --ink:#1f2b22; --muted:#6e7c70; --rule:#cddac8; --sage:#5e8c61; --leaf:#2f6b3a;
+  --ochre:#b07d28; --lead:#c0533a; --gel:#2e7c62;
+  --f:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+  color-scheme:light;
+}
+html,body{height:100%;margin:0}
+body{background:radial-gradient(120% 90% at 30% 40%,#f7f5ee,var(--paper) 60%,#ebe9df);background-attachment:fixed;color:var(--ink);font-family:var(--f);font-size:15px;line-height:1.55}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:var(--paper)}
+#stage{position:fixed;inset:0;width:100vw;height:100vh;display:block}
+
+/* HUD */
+#hud{position:fixed;inset:0;pointer-events:none;z-index:5}
+.panel{position:absolute;opacity:0;transition:opacity .6s;min-width:0}
+.panel.on{opacity:1}
+.card{background:var(--card);border:1px solid var(--rule);border-radius:18px;box-shadow:0 6px 20px rgba(40,60,40,.06)}
+.fly{opacity:0}
+.panel.on .fly.shown{opacity:1}
+.reduce .panel.on .fly{opacity:1}
+.kicker{font:600 11px/1 var(--f);letter-spacing:.24em;text-transform:uppercase;color:var(--sage)}
+.chip{display:inline-block;font:600 11px/1 var(--f);letter-spacing:.18em;text-transform:uppercase;border:1px solid currentColor;border-radius:999px;padding:7px 12px}
+.c-leaf{color:var(--leaf)}.c-ochre{color:var(--ochre)}.c-sage{color:var(--sage)}.c-lead{color:var(--lead)}.c-muted{color:var(--muted)}
+
+/* material panel */
+.mat{right:max(32px,env(safe-area-inset-right,0px));top:96px;width:min(640px,44vw);display:grid;gap:14px}
+.mat h2{font:600 clamp(34px,4vw,56px)/1 var(--f);letter-spacing:-.02em;margin:4px 0 0}
+.mat .sci{font-style:italic;color:var(--muted);font-size:16px}
+.mat ul{list-style:none;margin:0;padding:0;display:grid;gap:8px;font-size:16px}
+.mat li{display:flex;gap:12px;align-items:baseline}
+.mat li::before{content:"";flex:none;width:8px;height:8px;border-radius:50%;background:var(--dot,var(--leaf));transform:translateY(-1px)}
+.mat .data{padding:18px 22px;display:grid;gap:4px}
+.mat .big{font:600 clamp(40px,4.6vw,68px)/1.05 var(--f);letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.mat .unit{font-weight:500}
+.mat .cond{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:13px;color:var(--muted)}
+.mat .cond b{font-weight:500;color:var(--sage)}
+.mat .note{font-weight:500;font-size:15px}
+.mat .note small{display:block;font-weight:400;color:var(--muted);font-size:13px;margin-top:2px}
+.twist{padding:12px 16px;border-color:var(--ochre);font-size:13.5px}
+.hyp{padding:18px 22px;border:2px solid var(--ochre)}
+
+/* recipe */
+#pSteps{left:max(32px,env(safe-area-inset-left,0px));top:96px;width:min(420px,32vw)}
+#pSteps ol{list-style:none;margin:16px 0 0;padding:0;display:grid;gap:18px}
+#pSteps li{display:grid;grid-template-columns:36px 1fr;gap:2px 12px;color:var(--muted);transition:color .5s}
+#pSteps li .n{grid-row:span 2;width:32px;height:32px;border-radius:50%;border:1.5px solid currentColor;display:grid;place-items:center;font-weight:600;font-size:14px}
+#pSteps li .t{font:600 19px/1.2 var(--f)}
+#pSteps li .d{font-size:13.5px}
+#pSteps li.act{color:var(--ink)}
+#pSteps li.act .n{color:var(--leaf);background:rgba(47,107,58,.08)}
+#pSteps li.done .n{color:var(--sage)}
+#pCond{right:max(32px,env(safe-area-inset-right,0px));top:96px;padding:14px 18px;min-width:240px}
+#pCond .v{font:600 26px/1.2 var(--f);color:var(--ochre);margin-top:8px;font-variant-numeric:tabular-nums}
+#pCond .s{font-size:13px;color:var(--muted)}
+
+/* summary */
+#pSum{left:50%;top:96px;transform:translateX(-50%);width:min(1180px,calc(100vw - 48px))}
+#sumGrid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:14px}
+#sumGrid .card{padding:16px;display:grid;gap:4px;min-width:0}
+#sumGrid .n{font:600 18px/1.2 var(--f)}
+#sumGrid .ty{font-size:12px;font-weight:500}
+#sumGrid .v{font:600 clamp(20px,2.2vw,32px)/1.1 var(--f);margin-top:18px;font-variant-numeric:tabular-nums}
+#sumGrid .s{font-size:12px;color:var(--muted)}
+#sumGrid .r{font-size:11.5px;color:var(--muted);margin-top:10px}
+#sumWarn{margin:18px auto 0;max-width:820px;padding:14px 20px;text-align:center;border:2px solid var(--ochre)}
+#sumWarn .h{font:600 13px/1 var(--f);letter-spacing:.24em;color:var(--ochre)}
+#sumGrid .v.long{font-size:clamp(17px,1.7vw,25px)}
+#pEnd{left:50%;top:44%;transform:translate(-50%,-50%);width:min(860px,calc(100vw - 32px));text-align:center;display:grid;gap:14px;justify-items:center}
+#pEnd h2{font:600 clamp(26px,3.4vw,44px)/1.15 var(--f);letter-spacing:-.015em;margin:0;text-wrap:balance}
+#pEnd h2 span{color:var(--leaf)}
+#pEnd .d{font-size:14px;color:#3b4a3e}
+#pEnd .who{font-size:13px;color:var(--muted);margin-top:18px}
+
+#cursors{position:fixed;inset:0;pointer-events:none;z-index:8;overflow:hidden}
+#cursors svg{position:absolute;left:0;top:0;width:22px;height:30px;filter:drop-shadow(1px 2px 1px rgba(30,40,30,.25))}
+#cursors .ring{position:absolute;width:12px;height:12px;border:2px solid var(--leaf);border-radius:50%;margin:-6px 0 0 -6px}
+
+/* story */
+main{position:relative;z-index:6;pointer-events:none}
+.step{min-height:100vh;display:flex;align-items:flex-end;justify-content:center;padding-block:0 9vh;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));box-sizing:border-box}
+.step.lefty{justify-content:flex-start;padding-left:max(32px,env(safe-area-inset-left,0px))}
+.story{pointer-events:auto;max-width:540px;background:rgba(252,251,246,.94);border:1px solid var(--rule);border-radius:18px;padding:16px 20px;box-shadow:0 6px 20px rgba(40,60,40,.06)}
+.story .eyebrow{font:600 11px/1 var(--f);letter-spacing:.22em;text-transform:uppercase;color:var(--sage);margin-bottom:8px}
+.story h2{font:600 21px/1.25 var(--f);margin:0 0 6px;text-wrap:balance}
+.story p{margin:0;color:#3b4a3e}
+.hero{align-items:center;padding-block:12vh}
+.hero .story{max-width:720px;padding:30px 32px;background:rgba(252,251,246,.85)}
+.hero h1{font:300 clamp(32px,5vw,60px)/1.06 var(--f);letter-spacing:-.02em;margin:6px 0 14px;text-wrap:balance}
+.hero h1 b{font-weight:600;color:var(--leaf)}
+.hero .mats{font-weight:500;color:var(--leaf);margin-top:10px}
+.hero .meta{font-size:13px;color:var(--muted);margin-top:10px}
+.hero .go{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+.btn{pointer-events:auto;font:600 13px/1 var(--f);color:#fff;background:var(--leaf);border:0;border-radius:999px;padding:12px 18px;cursor:pointer;text-decoration:none}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--rule)}
+.btn:focus-visible,.tb button:focus-visible,.tb a:focus-visible{outline:2px solid var(--ochre);outline-offset:2px}
+.refs{display:block;padding-block:12vh 8vh}
+.refs .story{max-width:860px;margin-inline:auto}
+.refs h2{font:600 24px/1.2 var(--f);margin:0 0 12px}
+.refs ol{margin:0;padding-left:0;list-style:none;display:grid;gap:10px;font-size:13.5px;color:#3b4a3e}
+.refs li{padding-left:2em;text-indent:-2em;overflow-wrap:anywhere}
+.refs h3{font:600 12px/1 var(--f);letter-spacing:.2em;text-transform:uppercase;color:var(--sage);margin:22px 0 10px}
+
+/* top bar */
+.tb{position:fixed;top:env(safe-area-inset-top,0px);left:0;right:0;z-index:20;display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:12px max(16px,env(safe-area-inset-right,0px)) 12px max(16px,env(safe-area-inset-left,0px));background:linear-gradient(rgba(244,242,233,.96),rgba(244,242,233,0))}
+.tb .name{font:600 13px/1 var(--f);letter-spacing:.02em;margin-right:auto}
+.tb .name small{font:400 12px var(--f);color:var(--muted);margin-left:8px}
+.tb button,.tb a{font:500 12px/1 var(--f);color:var(--ink);background:var(--card);border:1px solid var(--rule);border-radius:999px;padding:8px 13px;cursor:pointer;text-decoration:none}
+#count{font:500 12px var(--f);color:var(--muted);min-width:52px;text-align:right;font-variant-numeric:tabular-nums}
+
+/* presentation mode */
+#caption{display:none}
+.present main{display:none}
+.present #caption{display:block;position:fixed;left:50%;bottom:max(24px,env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:9;width:min(560px,calc(100vw - 32px))}
+.present #caption .story{max-width:none}
+.present .navbtn{display:flex}
+.navbtn{display:none;position:fixed;bottom:max(24px,env(safe-area-inset-bottom,0px));z-index:10;gap:8px;right:max(16px,env(safe-area-inset-right,0px))}
+.navbtn button{font:600 18px/1 var(--f);width:44px;height:44px;border-radius:50%;background:var(--card);color:var(--ink);border:1px solid var(--rule);cursor:pointer}
+#bAuto{font-size:13px!important}
+#autobar{position:fixed;left:0;right:0;bottom:0;height:3px;background:var(--leaf);transform-origin:left;transform:scaleX(0);z-index:11;pointer-events:none;display:none}
+.present #autobar{display:block}
+
+@media (max-width:820px){
+  .tb .name small{display:none}
+  .side{display:none}
+  .mat{left:16px;right:16px;width:auto;top:104px;gap:8px}
+  .present #caption{bottom:84px}
+  #pEnd{top:40%}#pEnd .who{display:none}
+  .mat h2{font-size:30px}
+  .mat ul,.mat .note,.twist,.mat .sci{display:none}
+  .mat .data{padding:12px 16px}
+  .mat .big{font-size:34px}
+  #sumGrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+  #sumGrid .card{padding:10px}#sumGrid .v{margin-top:4px}#sumGrid .r,#sumGrid .s{display:none}
+  #pSum{top:104px}#sumWarn{display:none}
+}
+@media (prefers-reduced-motion:reduce){ .panel{transition:none} }
+</style>
+</head><body><div class="tb" role="toolbar" aria-label="Controles">
+  <div class="name">Parte 2 · Del almidón al hidrogel <small>Investigación Formativa · FQIQ-UNMSM</small></div>
+  <a href="index.html">← Parte 1</a>
+  <button id="bPresent" type="button">Presentar</button>
+  <span id="count" aria-live="polite">1 / 15</span>
+</div>
+
+<canvas id="stage" aria-label="Esquemas animados del proceso de síntesis y de cada material"></canvas>
+
+<div id="hud">
+  <!-- receta -->
+  <section class="panel side card" id="pSteps" data-s="2,3,4,5,6,7" style="padding:20px 22px">
+    <div class="kicker fly">Receta de referencia · almidón de sagú</div>
+    <ol>
+      <li><span class="n">1</span><span class="t fly">Alcalinizar</span><span class="d fly">Almidón + NaOH: activa los grupos –OH</span></li>
+      <li><span class="n">2</span><span class="t fly">Carboximetilar</span><span class="d fly">+ monocloroacetato de sodio → –CH₂COO⁻ (DS 0,82)</span></li>
+      <li><span class="n">3</span><span class="t fly">Mezclar</span><span class="d fly">Disolver al 60 % y añadir 10 % de ácido cítrico</span></li>
+      <li><span class="n">4</span><span class="t fly">Reticular</span><span class="d fly">60 °C · 2 h, luego 50 °C · 48 h: puentes éster</span></li>
+      <li><span class="n">5</span><span class="t fly">Lavar y secar</span><span class="d fly">Agua destilada y horno a 60 °C → hidrogel</span></li>
+    </ol>
+    <div class="fly c-muted" style="font-size:12px;margin-top:16px">Keirudin et al. (2020)</div>
+  </section>
+  <section class="panel side card" id="pCond" data-s="4,5,6">
+    <div class="kicker fly">Condiciones</div>
+    <div class="v" id="condV">CMS 60 % (p/v)</div>
+    <div class="s" id="condS">Ácido cítrico 10 % (p/p)</div>
+  </section>
+
+  <!-- materiales -->
+  <section class="panel mat" data-s="8">
+    <div><span class="chip c-ochre fly">Biopolímero físico</span></div>
+    <div><h2 class="fly">Papa nativa</h2><div class="sci fly">Solanum tuberosum · var. Allcca sipas</div></div>
+    <div><div class="kicker fly">Ruta de síntesis</div></div>
+    <ul style="--dot:var(--ochre)"><li class="fly">Gelatinizar almidón al 2 % a 70 °C</li><li class="fly">Mezclar con glicerina y mucílago de nopal a 40 °C</li><li class="fly">Moldear y secar a 60–70 °C</li></ul>
+    <div class="card data"><div class="big c-leaf fly" data-count="53.57,73.22" data-fmt="{}–{} %" data-dec="2">53,57–73,22 %</div><div class="unit fly">remoción de plomo</div>
+      <div class="cond"><span class="fly">5 mg/L · pH 5 · 100 min · 4 formulaciones</span><b class="fly">Choque-Quispe et al. (2022) · estudio peruano</b></div></div>
+    <div class="note c-ochre fly">Ojo: el estudio lo llama «biopolímero», no hidrogel. No usa reticulante químico.</div>
+  </section>
+  <section class="panel mat" data-s="9">
+    <div><span class="chip c-leaf fly">Hidrogel químico</span></div>
+    <div><h2 class="fly">Sagú</h2><div class="sci fly">Metroxylon sagu · almidón de la médula del tronco</div></div>
+    <div><div class="kicker fly">Ruta de síntesis</div></div>
+    <ul><li class="fly">Carboximetilar: NaOH + monocloroacetato</li><li class="fly">Reticular con ácido cítrico (puentes éster)</li><li class="fly">Es la receta que acabamos de ver</li></ul>
+    <div class="card data"><div class="big c-leaf fly" data-count="64.48" data-fmt="{} mg/g" data-dec="2">64,48 mg/g</div><div class="unit fly">captación de Pb²⁺</div>
+      <div class="cond"><span class="fly">150 mg/L · pH 4 · prefiere Pb &gt; Cu &gt; Zn &gt; Ni</span><b class="fly">Keirudin et al. (2020)</b></div></div>
+    <div class="note fly">Con HCl 0,1 M libera el 91,86 % del plomo: se puede reutilizar.</div>
+  </section>
+  <section class="panel mat" data-s="10">
+    <div><span class="chip c-leaf fly">Hidrogel impreso</span></div>
+    <div><h2 class="fly">Yuca</h2><div class="sci fly">Manihot esculenta</div></div>
+    <div><div class="kicker fly">Ruta de síntesis</div></div>
+    <ul><li class="fly">Injertar NIPAM (monómero termosensible)</li><li class="fly">Usar Pb²⁺ como molde: deja huecos a su medida</li><li class="fly">Retirar el molde y regenerar con agua fría</li></ul>
+    <div class="card data"><div class="big c-leaf fly" data-count="114.6" data-fmt="{} mg/g" data-dec="1">114,6 mg/g</div><div class="unit fly">captación de Pb(II)</div>
+      <div class="cond"><span class="fly">Condiciones optimizadas · 97,9 mg/g frente a 7 iones</span><b class="fly">Lv et al. (2022)</b></div></div>
+    <div class="note fly">Tras 10 ciclos conserva el 88,2 % de su capacidad.</div>
+  </section>
+  <section class="panel mat" data-s="11">
+    <div><span class="chip c-sage fly">Biosorbente · sin síntesis</span></div>
+    <div><h2 class="fly">Alcachofa</h2><div class="sci fly">Cynara scolymus · residuo agroindustrial</div></div>
+    <div><div class="kicker fly">Cómo se usa</div></div>
+    <ul style="--dot:var(--sage)"><li class="fly">Casi no tiene almidón: no sigue esta ruta</li><li class="fly">Se usa la biomasa residual, sin reticular</li><li class="fly">Sus –OH, –COOH y aminas retienen el Pb</li></ul>
+    <div class="card data"><div class="big c-leaf fly" data-count="86.2" data-fmt="{} mg/g" data-dec="1">86,2 mg/g</div><div class="unit fly">captación de Pb(II)</div>
+      <div class="cond"><span class="fly">Mejores condiciones (diseño Taguchi) · biomasa, no hidrogel</span><b class="fly">Fernández-López et al. (2019)</b></div></div>
+    <div class="note c-ochre fly">Contraste: retiene plomo sin síntesis.<small>Otro estudio, con cáscaras: 62,81 mg/g (Ergüvenerler et al., 2020).</small></div>
+    <div class="card twist fly">Giro local: las principales zonas productoras están en el valle del Mantaro (Andina, 2014) <span class="c-ochre">y allí el cultivo acumula metales pesados (Orellana-Mendoza et al., 2026).</span></div>
+  </section>
+  <section class="panel mat" data-s="12">
+    <div><span class="chip c-ochre fly">Hipótesis del equipo</span></div>
+    <div><h2 class="fly">Árbol de pan</h2><div class="sci fly">Artocarpus altilis · nuestra propuesta</div></div>
+    <div><div class="kicker fly">Lo que ya sabemos</div></div>
+    <ul style="--dot:var(--ochre)"><li class="fly">Su cáscara retiró 82,0 % de Pb (Priyantha et al., 2019)</li><li class="fly">Almidón: baja amilosa, gránulos de 3–15 µm (Calix-Rivera et al., 2025)</li><li class="fly">Su almidón se puede reticular (Lemos et al., 2020)</li></ul>
+    <div class="card hyp"><div class="kicker c-ochre fly" style="color:var(--ochre)">Hipótesis</div>
+      <p class="fly" style="margin:8px 0 6px">Con la ruta del sagú (carboximetilación + ácido cítrico), su almidón podría formar sitios –COO⁻ que retengan Pb²⁺.</p>
+      <div style="display:flex;align-items:baseline;gap:16px;flex-wrap:wrap"><span class="big c-ochre fly">q = ? mg/g</span><span class="fly" style="font-weight:500">Nadie lo ha medido todavía.</span></div></div>
+    <div class="note c-ochre fly">Es una suposición razonada a partir de la evidencia, no un resultado.<small>Comprobarla requiere laboratorio: queda como oportunidad de investigación.</small></div>
+  </section>
+
+  <!-- resumen -->
+  <section class="panel" id="pSum" data-s="13">
+    <div id="sumGrid">
+      <div class="card"><div class="n fly">Papa nativa</div><div class="ty c-ochre fly">Biopolímero físico</div><div class="v long c-leaf fly">53,57–73,22 %</div><div class="s fly">remoción · 5 mg/L, pH 5</div><div class="r fly">Choque-Quispe et al. (2022)</div></div>
+      <div class="card"><div class="n fly">Sagú</div><div class="ty c-leaf fly">Hidrogel químico</div><div class="v c-leaf fly">64,48 mg/g</div><div class="s fly">captación · pH 4</div><div class="r fly">Keirudin et al. (2020)</div></div>
+      <div class="card"><div class="n fly">Yuca</div><div class="ty c-leaf fly">Hidrogel impreso</div><div class="v c-leaf fly">114,6 mg/g</div><div class="s fly">captación · optimizada</div><div class="r fly">Lv et al. (2022)</div></div>
+      <div class="card"><div class="n fly">Alcachofa</div><div class="ty c-sage fly">Biosorbente sin síntesis</div><div class="v c-sage fly">86,2 mg/g</div><div class="s fly">captación · optimizada</div><div class="r fly">Fernández-López et al. (2019)</div></div>
+      <div class="card" style="border:2px solid var(--ochre)"><div class="n fly">Árbol de pan</div><div class="ty c-ochre fly">Hipótesis</div><div class="v c-ochre fly">?</div><div class="s fly">por medir</div><div class="r fly">Propuesta del equipo</div></div>
+    </div>
+    <div class="card" id="sumWarn"><div class="h fly">ESTO NO ES UN RANKING</div><p class="fly" style="margin:8px 0 0">% y mg/g no son la misma medida, y cada estudio usó pH, concentración y tiempo distintos.</p></div>
+  </section>
+  <section class="panel" id="pEnd" data-s="14">
+    <div class="kicker fly">La pregunta que queda</div>
+    <h2 class="fly">¿Cuánto plomo retendría un hidrogel de almidón <span>de árbol de pan en agua del Mantaro?</span></h2>
+    <div class="d fly">Muestra del río: 0,19 mg/L de Pb (Ramos-Guivar et al., 2023) · Límite para consumo: 0,010 mg/L (MINSA, 2010)</div>
+    <div class="who fly">Samuel Benjamín Barrón Márquez · Isai Severiano Felix Sopla · Lucas Leonardo Salazar Ochoa<br>Investigación Formativa · FQIQ-UNMSM · 2026-II</div>
+  </section>
+</div>
+
+<div id="caption"></div>
+<div class="navbtn"><button id="bPrev" type="button" aria-label="Escena anterior">‹</button><button id="bNext" type="button" aria-label="Escena siguiente">›</button><button id="bAuto" type="button" aria-label="Pausar avance automático" aria-pressed="true">❚❚</button><button id="bExit" type="button" aria-label="Salir del modo presentación">✕</button></div>
+<div id="autobar" aria-hidden="true"></div>
+<div id="cursors"></div>
+
+<main id="story">
+  <section class="step hero" data-scene="0">
+    <div class="story">
+      <div class="eyebrow">Parte 2 · El proceso</div>
+      <h1>Del almidón a la <b>trampa de plomo</b></h1>
+      <p>Cómo se sintetiza un hidrogel de almidón y cuánto plomo retienen otros materiales vegetales según la literatura. Al final, el árbol de pan como hipótesis.</p>
+      <p class="mats">Papa · Sagú · Yuca · Alcachofa · Árbol de pan</p>
+      <p class="meta">Samuel Benjamín Barrón Márquez · Isai Severiano Felix Sopla · Lucas Leonardo Salazar Ochoa</p>
+      <div class="go"><button class="btn" id="bStart" type="button">Presentar en pantalla completa</button><button class="btn ghost" id="bScroll" type="button">Recorrer bajando ↓</button><a class="btn ghost" href="index.html">← Ver la Parte 1</a></div>
+    </div>
+  </section>
+  <section class="step" data-scene="1"><div class="story"><div class="eyebrow">01 · Definición</div><h2>¿Qué es un hidrogel?</h2><p>Una red tridimensional de polímero entrecruzado que absorbe agua sin disolverse (Keirudin et al., 2020). Sintetizarlo es convertir el almidón en esa red y darle sitios que atrapen Pb²⁺.</p></div></section>
+  <section class="step" data-scene="2"><div class="story"><div class="eyebrow">02 · Paso 1</div><h2>Alcalinizar</h2><p>El almidón se trata con hidróxido de sodio: sus grupos –OH quedan activados (–O⁻) para la siguiente reacción.</p></div></section>
+  <section class="step" data-scene="3"><div class="story"><div class="eyebrow">03 · Paso 2</div><h2>Carboximetilar</h2><p>Con monocloroacetato de sodio, los grupos activados se convierten en –CH₂COO⁻. En la receta de referencia, el grado de sustitución fue 0,82.</p></div></section>
+  <section class="step" data-scene="4"><div class="story"><div class="eyebrow">04 · Paso 3</div><h2>Mezclar</h2><p>El carboximetil almidón se disuelve al 60 % (p/v) y se añade 10 % (p/p) de ácido cítrico, un reticulante no tóxico.</p></div></section>
+  <section class="step" data-scene="5"><div class="story"><div class="eyebrow">05 · Paso 4</div><h2>Reticular</h2><p>Se agita 2 h a 60 °C y se deja 48 h a 50 °C. El ácido cítrico forma puentes éster entre las cadenas: nace la red.</p></div></section>
+  <section class="step" data-scene="6"><div class="story"><div class="eyebrow">06 · Paso 5</div><h2>Lavar y secar</h2><p>Se lava con agua destilada para quitar lo que no reaccionó y se seca a 60 °C. En agua, la red se hincha.</p></div></section>
+  <section class="step" data-scene="7"><div class="story"><div class="eyebrow">07 · Resultado</div><h2>El hidrogel atrapa el plomo</h2><p>Pb²⁺ se une a los grupos –COO⁻ por interacción iónica. En el sagú, el plomo fue el metal preferido: Pb &gt; Cu &gt; Zn &gt; Ni (Keirudin et al., 2020).</p></div></section>
+  <section class="step lefty" data-scene="8"><div class="story"><div class="eyebrow">08 · Material 1/5</div><h2>Papa nativa</h2><p>Estudio peruano: un biopolímero de almidón de papa y mucílago de nopal retiró hasta 73,22 % del plomo.</p></div></section>
+  <section class="step lefty" data-scene="9"><div class="story"><div class="eyebrow">09 · Material 2/5</div><h2>Sagú</h2><p>La receta que acabamos de ver: 64,48 mg/g de Pb²⁺, y el plomo se recupera con ácido diluido.</p></div></section>
+  <section class="step lefty" data-scene="10"><div class="story"><div class="eyebrow">10 · Material 3/5</div><h2>Yuca</h2><p>Un hidrogel «impreso» con el propio plomo como molde: 114,6 mg/g, y sigue funcionando tras 10 ciclos.</p></div></section>
+  <section class="step lefty" data-scene="11"><div class="story"><div class="eyebrow">11 · Material 4/5</div><h2>Alcachofa, el contraste</h2><p>Retiene plomo sin síntesis. Y es un cultivo del valle del Mantaro que allí acumula metales pesados.</p></div></section>
+  <section class="step lefty" data-scene="12"><div class="story"><div class="eyebrow">12 · Material 5/5</div><h2>Árbol de pan: nuestra hipótesis</h2><p>Con la ruta del sagú, su almidón podría retener Pb²⁺. Nadie lo ha medido todavía.</p></div></section>
+  <section class="step" data-scene="13"><div class="story"><div class="eyebrow">13 · Resumen</div><h2>Lo que sí muestran las fuentes</h2><p>Al modificar químicamente el almidón, gana sitios que se unen al Pb²⁺ (Keirudin et al., 2020; Lv et al., 2022).</p></div></section>
+  <section class="step" data-scene="14"><div class="story"><div class="eyebrow">14 · Cierre</div><h2>Una oportunidad de investigación</h2><p>Responderla exige laboratorio y agua real de la cuenca: es el paso que deja abierto este estudio documental.</p></div></section>
+  <section class="refs" data-scene="14">
+    <div class="story">
+      <h2>Referencias</h2>
+      <ol>
+        <li>Andina. (2014, 7 de junio). <em>Principales zonas de producción de alcachofa están en el Valle del Mantaro</em>. https://andina.pe/agencia/noticia.aspx?id=509267</li>
+        <li>Calix-Rivera, C. S., Náthia-Neves, G., Mauro, R. R., Villanueva, M., y Ronda, F. (2025). Physico-chemical and nutritional properties of breadfruit pulp and peel flours: Insights into starch molecular characteristics and their impact on starch digestibility. <em>International Journal of Biological Macromolecules, 305</em>(Pt 2), Artículo 141224. https://doi.org/10.1016/j.ijbiomac.2025.141224</li>
+        <li>Choque-Quispe, D., Ramos-Pacheco, B. S., Ligarda-Samanez, C. A., Barboza-Palomino, G. I., Kari-Ferro, A., Taipe-Pardo, F., y Choque-Quispe, Y. (2022). Remoción de metales pesados por biopolímeros formulados con almidón de papa nativa/mucílago de nopal. <em>Revista Facultad de Ingeniería Universidad de Antioquia</em>, (103), 44–50. https://doi.org/10.17533/udea.redin.20201112</li>
+        <li>Ergüvenerler, F., Targan, Ş., y Tirtom, V. N. (2020). Removal of lead from aqueous solutions by low cost and waste biosorbents (lemon, bean and artichoke shells). <em>Water Science and Technology, 81</em>(1), 159–169. https://doi.org/10.2166/wst.2020.093</li>
+        <li>Fernández-López, J. A., Angosto, J. M., Roca, M. J., y Doval Miñarro, M. (2019). Taguchi design-based enhancement of heavy metals bioremoval by agroindustrial waste biomass from artichoke. <em>Science of the Total Environment, 653</em>, 55–63. https://doi.org/10.1016/j.scitotenv.2018.10.343</li>
+        <li>Keirudin, A. A., Zainuddin, N., y Yusof, N. A. (2020). Crosslinked carboxymethyl sago starch/citric acid hydrogel for sorption of Pb²⁺, Cu²⁺, Ni²⁺ and Zn²⁺ from aqueous solution. <em>Polymers, 12</em>(11), Artículo 2465. https://doi.org/10.3390/polym12112465</li>
+        <li>Lemos, P. V. F., Opretzka, L. C. F., Almeida, L. S., Cardoso, L. G., Silva, J. B. A. da, Souza, C. O. de, Villarreal, C. F., y Druzian, J. I. (2020). Preparation and characterization of C-phycocyanin coated with STMP/STPP cross-linked starches from different botanical sources. <em>International Journal of Biological Macromolecules, 159</em>, 739–750. https://doi.org/10.1016/j.ijbiomac.2020.05.111</li>
+        <li>Lv, M., Du, Y., Zhang, T., Du, X., y Yin, X. (2022). Cassava starch-based thermo-responsive Pb(II)-imprinted material: Preparation and adsorption performance on Pb(II). <em>Polymers, 14</em>(4), Artículo 828. https://doi.org/10.3390/polym14040828</li>
+        <li>Ministerio de Salud. (2010). <em>Decreto Supremo N.° 031-2010-SA. Aprueban el Reglamento de la Calidad del Agua para Consumo Humano</em>. Sistema Nacional de Información Ambiental. https://sinia.minam.gob.pe/normas/aprueban-reglamento-calidad-agua-consumo-humano</li>
+        <li>Orellana-Mendoza, E., Cosme, R., Quispe-Coquil, V., Camel, V., Tames, M., Aguilar, J., Ayllón, R., Valero-Maraví, S., Rojas-León, Á., y Peñaloza, R. (2026). Accumulation and health risk from heavy metals in agricultural crops in the Mantaro Valley in the central Andes of Peru. <em>Ecotoxicology and Environmental Safety, 321</em>, Artículo 120429. https://doi.org/10.1016/j.ecoenv.2026.120429</li>
+        <li>Priyantha, N., Lim, L. B. L., Mansor, N. H. M., y Liyandeniya, A. B. (2019). Irreversible sorption of Pb(II) from aqueous solution on breadfruit peel to mitigate environmental pollution problems. <em>Water Science and Technology, 80</em>(12), 2241–2249. https://doi.org/10.2166/wst.2019.414</li>
+        <li>Ramos-Guivar, J. A., Checca-Huaman, N.-R., Litterst, F. J., y Passamani, E. C. (2023). Surface adsorption mechanism between lead(II,IV) and nanomaghemite studied on polluted water samples collected from the Peruvian rivers Mantaro and Cumbaza. <em>Nanomaterials, 13</em>(10), Artículo 1684. https://doi.org/10.3390/nano13101684</li>
+      </ol>
+      <h3>Sobre las imágenes</h3>
+      <ol>
+        <li>Las moléculas, las formas 3D de cada material y los iones son esquemas ilustrativos de elaboración propia, no modelos a escala.</li>
+        <li>Los valores de cada material se midieron en condiciones distintas y no se comparan entre sí.</li>
+      </ol>
+      <p style="margin-top:22px"><a class="btn" href="index.html">← Volver a la Parte 1</a></p>
+    </div>
+  </section>
+</main>
+
+<script type="module" src="proceso.js"></script>
+</body></html>

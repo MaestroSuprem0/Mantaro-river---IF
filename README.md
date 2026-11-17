@@ -5,6 +5,10 @@ plomo en el agua del río Mantaro (Junín) y la propuesta de un hidrogel de almi
 
 Integrantes: Samuel Benjamín Barrón Márquez, Isai Severiano Felix Sopla, Lucas Leonardo Salazar Ochoa.
 
+## Páginas
+- `index.html` · **Parte 1:** la cuenca del Mantaro en 3D, los datos de plomo y el hidrogel a escala molecular.
+- `proceso.html` · **Parte 2:** cómo se sintetiza un hidrogel de almidón (receta de Keirudin et al., 2020) y qué retienen la papa, el sagú, la yuca y la alcachofa; el árbol de pan como hipótesis. Estilo claro en tonos verdes.
+
 ## Cómo usarlo
 - **Recorrer bajando:** cada sección cambia la escena.
 - **Presentar:** pantalla completa; avanza solo cada 40 segundos (pausa con el botón ❚❚ o la tecla P); avanzar a mano con clic, flecha derecha o espacio; retroceder con flecha izquierda; salir con Esc.
@@ -13,7 +17,7 @@ Integrantes: Samuel Benjamín Barrón Márquez, Isai Severiano Felix Sopla, Luca
 
 ## Publicar en GitHub Pages
 1. Crear un repositorio público en GitHub (por ejemplo `plomo-mantaro`).
-2. Subir todo el contenido de esta carpeta: `index.html`, `app.js`, la carpeta `assets/` y `.nojekyll`.
+2. Subir todo el contenido de esta carpeta: `index.html`, `app.js`, `proceso.html`, `proceso.js`, la carpeta `assets/` y `.nojekyll`.
 3. En el repositorio: **Settings → Pages → Build and deployment → Source: Deploy from a branch**, rama `main`, carpeta `/ (root)` → **Save**.
 4. En uno o dos minutos la página queda en `https://TU-USUARIO.github.io/plomo-mantaro/`.
 

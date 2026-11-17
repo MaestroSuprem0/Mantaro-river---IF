@@ -101,6 +101,8 @@ main{position:relative;z-index:6;pointer-events:none}
 .tb button{font:500 12px/1 var(--f-body);color:var(--text);background:rgba(10,24,44,.8);border:1px solid var(--rule);padding:8px 11px;cursor:pointer}
 .tb button[aria-pressed="true"]{background:var(--cyan);color:var(--night);border-color:var(--cyan)}
 .tb .seg{display:flex}
+.tb a.p2{font:600 12px/1 var(--f-body);color:var(--night);background:var(--lime);border:1px solid var(--lime);padding:8px 11px;text-decoration:none}
+.btn.link{text-decoration:none;display:inline-block}
 .tb .seg button+button{border-left:0}
 #count{font:500 12px var(--f-mono);color:var(--muted);min-width:52px;text-align:right}
 #loading{position:fixed;left:50%;top:58%;transform:translateX(-50%);font:500 12px var(--f-mono);color:var(--muted);z-index:7}
@@ -133,6 +135,7 @@ main{position:relative;z-index:6;pointer-events:none}
   </div>
   <button id="bExplore" type="button" aria-pressed="false">Explorar 3D</button>
   <button id="bPresent" type="button">Presentar</button>
+  <a class="p2" href="proceso.html">Parte 2 →</a>
   <span id="count" aria-live="polite">1 / 13</span>
 </div>
 
@@ -287,7 +290,7 @@ main{position:relative;z-index:6;pointer-events:none}
       <h1>El agua que baja de La Oroya y una pregunta: ¿puede el <b>almidón de árbol de pan</b> atrapar su plomo?</h1>
       <p>Recorrido por la cuenca del río Mantaro con relieve y satélite reales, los datos que encontramos sobre plomo en el agua y el hidrogel que proponemos estudiar.</p>
       <p class="meta" style="margin-top:10px">Samuel Benjamín Barrón Márquez · Isai Severiano Felix Sopla · Lucas Leonardo Salazar Ochoa</p>
-      <div class="go"><button class="btn" id="bStart" type="button">Presentar en pantalla completa</button><button class="btn ghost" id="bScroll" type="button">Recorrer bajando ↓</button></div>
+      <div class="go"><button class="btn" id="bStart" type="button">Presentar en pantalla completa</button><button class="btn ghost" id="bScroll" type="button">Recorrer bajando ↓</button><a class="btn ghost link" href="proceso.html">Parte 2: el proceso →</a></div>
     </div>
   </section>
   <section class="step" data-scene="1"><div class="story"><div class="eyebrow">01 · La maqueta</div><h2>Empezamos con papel</h2><p>Nuestra maqueta representa las montañas de La Oroya, donde comienza el tramo del Mantaro que estudiamos en Junín.</p></div></section>
@@ -330,6 +333,7 @@ main{position:relative;z-index:6;pointer-events:none}
         <li>Escala del índice ICA-PE: Autoridad Nacional del Agua (2018), metodología ICA-PE.</li>
         <li>El trazado del río, las altitudes del tramo y la animación molecular son elaboración propia; la animación es un esquema ilustrativo.</li>
       </ol>
+      <p style="margin-top:22px"><a class="btn link" href="proceso.html">Continuar con la Parte 2: el proceso de síntesis →</a></p>
     </div>
   </section>
 </main>
