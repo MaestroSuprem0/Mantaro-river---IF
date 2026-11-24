@@ -211,10 +211,19 @@ html.read .stampo{position:static;display:inline-block;margin-top:14px}
 /* ---------- fase 2 ---------- */
 .bigq{font-family:var(--display);font-size:42px;line-height:1.22;max-width:1250px;font-weight:350}
 .stones{display:flex;align-items:center;margin:4px 0}
-.stones .path{flex:1;height:3px;min-width:12px;background:repeating-linear-gradient(90deg,var(--moss) 0 10px,transparent 10px 18px)}
-.stone{flex:0 0 auto;width:86px;height:86px;border-radius:50% 46% 52% 44%;border:2px solid var(--leaf);background:var(--card);font-family:var(--display);font-size:40px;color:var(--leaf);cursor:pointer;display:grid;place-items:center;transition:transform .2s;padding:0}
-.stone:hover{transform:translateY(-3px)}
-.stone.on{background:var(--leaf);color:var(--paper)}
+.stones .path{flex:1;height:3px;min-width:12px;position:relative;background:repeating-linear-gradient(90deg,var(--moss) 0 10px,transparent 10px 18px)}
+.stones .path::after{content:"";position:absolute;left:0;top:-1px;height:5px;border-radius:3px;width:calc(var(--p,0) * 100%);background:var(--leaf)}
+.stone{flex:0 0 auto;width:100px;height:100px;border:0;background:none;font-family:var(--display);font-size:42px;color:var(--leaf);cursor:pointer;display:grid;place-items:center;transition:transform .25s cubic-bezier(.3,1.5,.5,1);padding:0;position:relative}
+.stone svg{position:absolute;inset:-4%;width:108%;height:108%;overflow:visible;pointer-events:none}
+.stone .rk{fill:var(--card);stroke:var(--leaf);stroke-width:3.2;stroke-linejoin:miter;filter:drop-shadow(0 3px 0 color-mix(in srgb,var(--ink) 18%,transparent))}
+.stone .fc{fill:none;stroke:color-mix(in srgb,var(--leaf) 45%,transparent);stroke-width:1.6;stroke-linecap:round}
+.stone .sh{fill:color-mix(in srgb,var(--moss) 22%,transparent)}
+.stone > span{position:relative;line-height:1;transform:translateY(-2px)}
+.stone.on .rk{fill:var(--leaf)}
+.stone.on .fc{stroke:color-mix(in srgb,var(--paper) 45%,transparent)}
+.stone.on .sh{fill:color-mix(in srgb,var(--ink) 22%,transparent)}
+.stone:hover{transform:translateY(-4px) rotate(-3deg)}
+.stone.on{color:var(--paper);transform:scale(1.08)}
 .ogrid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:26px}
 .ogrid .eyebrow{margin-bottom:6px}
 .legend{display:flex;flex-wrap:wrap;gap:6px 18px}
@@ -265,6 +274,13 @@ table.mt{width:100%;border-collapse:collapse;font-size:18px;line-height:1.35}
 .vc .b{font-size:19px;line-height:1.4;display:none}
 .vc .s{font-size:19px;color:var(--ink);display:none;margin-top:auto}
 .vc.open{border-color:var(--leaf)}
+.vc .bl{position:absolute;inset:-1px;display:flex;pointer-events:none;z-index:2;border-radius:4px;overflow:hidden}
+.vc .bl i{flex:1;background:var(--leaf);transform-origin:left;transform:scaleX(0)}
+.vc .bl i:nth-child(odd){background:color-mix(in srgb,var(--leaf) 82%,var(--ink))}
+.vc.reveal .bl i{animation:blind .8s cubic-bezier(.65,0,.35,1) both}
+.vc.reveal .bl i:nth-child(2){animation-delay:.03s}.vc.reveal .bl i:nth-child(3){animation-delay:.06s}.vc.reveal .bl i:nth-child(4){animation-delay:.09s}.vc.reveal .bl i:nth-child(5){animation-delay:.12s}.vc.reveal .bl i:nth-child(6){animation-delay:.15s}.vc.reveal .bl i:nth-child(7){animation-delay:.18s}
+@keyframes blind{0%{transform:scaleX(1)}25%{transform:scaleX(1)}100%{transform:scaleX(0)}}
+.vc .s cite,.vc .s .own{font-size:15px}
 .vc.open .b,.vc.open .s{display:block}
 .vc .g{margin-top:auto;font-family:var(--display);font-size:64px;line-height:1;color:color-mix(in srgb,var(--moss) 55%,transparent)}
 .vc.open .g{display:none}
@@ -287,7 +303,7 @@ table.mt{width:100%;border-collapse:collapse;font-size:18px;line-height:1.35}
 .concl{display:flex;flex-direction:column}
 .cr{display:grid;grid-template-columns:70px 240px 1fr;gap:22px;align-items:center;padding:12px 10px;border-bottom:1px solid var(--rule);border-radius:4px;transition:background .3s}
 .cr.on{background:color-mix(in srgb,var(--leaf) 12%,transparent)}
-.cr .stone{width:58px;height:58px;font-size:28px}
+.cr .stone{width:64px;height:64px;font-size:30px}
 .cr .o{font-family:var(--mono);font-size:15px;color:var(--ink-soft);letter-spacing:.04em;line-height:1.5}
 .cr p{font-size:22px;line-height:1.42}
 .refq{font:inherit;font-size:19px;background:var(--card);color:var(--ink);border:1px solid var(--rule);border-radius:999px;padding:8px 18px;width:360px;margin-bottom:12px}
@@ -311,7 +327,7 @@ table.mt{width:100%;border-collapse:collapse;font-size:18px;line-height:1.35}
 .slide.active .pbdrop{animation:pbin 1.1s .7s cubic-bezier(.3,1.3,.5,1) both}
 @keyframes pbin{from{transform:translateY(-60px);opacity:0}}
 html.read .bigq{font-size:clamp(22px,4.6vw,34px)}
-html.read .stone{width:50px;height:50px;font-size:24px}
+html.read .stone{width:54px;height:54px;font-size:25px}
 html.read .ogrid,html.read .routes{grid-template-columns:1fr}
 html.read .rtabs{grid-template-columns:repeat(auto-fill,minmax(180px,1fr))}
 html.read .vgrid{grid-template-columns:repeat(auto-fill,minmax(220px,1fr));grid-auto-rows:auto}
@@ -870,7 +886,7 @@ function go(i, fromHash) {
   else { slides.forEach((s, k) => s.classList.toggle('active', k === i)); activate(slides[i]); }
   $('#count').textContent = `${i + 1} / ${slides.length}`; $('#ttl').textContent = slides[i].dataset.title;
   if (!fromHash) { try { history.replaceState(null, '', '#p-' + (i + 1)); } catch (e) {} }
-  drawChain(); fillNotes(); autoT = 0; tPage = 0; if (!$('#notes').hidden) layoutNotes();
+  drawChain(); fillNotes(); autoT = 0; tPage = 0; autoK = -1; if (!$('#notes').hidden) layoutNotes();
 }
 $('#bPrev').onclick = () => go(cur - 1); $('#bNext').onclick = () => go(cur + 1);
 $$('[data-go]').forEach(b => b.onclick = () => go(+b.dataset.go));
@@ -890,7 +906,7 @@ function toggleNotes() { const n = $('#notes'); n.hidden = !n.hidden; $('#bNotes
 $('#bNotes').onclick = toggleNotes;
 // avance automático
 let auto = false, autoT = 0;
-function toggleAuto() { auto = !auto; autoT = 0; $('#bAuto').setAttribute('aria-pressed', auto); }
+function toggleAuto() { auto = !auto; autoT = 0; autoK = -1; $('#bAuto').setAttribute('aria-pressed', auto); }
 $('#bAuto').onclick = toggleAuto;
 // en modo Leer, la página actual sigue al scroll
 const io = new IntersectionObserver(es => { if (!readMode) return; es.forEach(e => { if (e.isIntersecting) { cur = slides.indexOf(e.target); activate(e.target); drawChain(); } }); }, { rootMargin: '-40% 0px -50% 0px' });
@@ -898,7 +914,7 @@ slides.forEach(s => io.observe(s));
 
 /* ---------------- índice ---------------- */
 const CHAPS = [['I', 'Título y características', 'ficha del proyecto', 'p-titulo'], ['II', 'Problema', 'plomo en el Mantaro', 'p-problema'], ['III', 'Objetivos', 'cinco pasos', 'p-objetivos'], ['IV', 'Hipótesis', 'un supuesto por comprobar', 'p-hipotesis'], ['V', 'Marco teórico', 'del río a la molécula', 'p-rio'], ['VI', 'Metodología', 'la búsqueda', 'p-metodo'], ['§', 'Hallazgos', 'materiales, análisis y propuesta', 'p-materiales'], ['VII', 'Cronograma', 'agosto a noviembre', 'p-crono'], ['VIII', 'Conclusiones', 'lo que deja la revisión', 'p-conclusiones'], ['IX', 'Referencias', 'APA 7', 'p-refs'], ['§', 'Anexos', 'partes 1 y 2 en la web', 'p-anexos']];
-$('#toc').innerHTML = CHAPS.map(([n, t, s, id]) => `<button type="button" data-goid="${id}"><span class="n">${n}</span><span class="t">${t}</span><span class="s">${s.split('; ').map(x => x.includes('(') ? '<cite>' + x + '</cite>' : '<span class="own">' + x + '</span>').join(' ')}</span></button>`).join('');
+$('#toc').innerHTML = CHAPS.map(([n, t, s, id]) => `<button type="button" data-goid="${id}"><span class="n">${n}</span><span class="t">${t}</span><span class="s">${s}</span></button>`).join('');
 
 /* ---------------- cadena de progreso ---------------- */
 const SYN = slides.findIndex(s => s.id === 'p-sintesis');
@@ -1254,6 +1270,7 @@ $('#stones').innerHTML = OBJ.map((o, i) => (i ? '<span class="path"></span>' : '
 function setObj(i) {
   objSel = i; const [k, p, o, f, r] = OBJ[i];
   $$('#stones .stone').forEach((b, j) => { b.classList.toggle('on', j === i); b.setAttribute('aria-selected', j === i); });
+  if (typeof setPaths === 'function' && !(auto && slides[cur] && slides[cur].id === 'p-objetivos')) setPaths(i);
   $('#objBox').innerHTML = `<div class="ogrid"><div><div class="eyebrow">Problema específico ${i + 1}</div><p class="small">${p}</p></div><div><div class="eyebrow">Objetivo ${k}</div><p class="small"><b>${o}</b></p></div><div><div class="eyebrow">Fuentes de evidencia</div><p class="small">${f}</p></div></div>
   <div class="ctrl" style="margin-top:18px">${r ? `<button class="btn" type="button" data-res="${r}">Resultado ${r} →</button>` : `<button class="btn" type="button" data-to="p-propuesta">La propuesta →</button>`}${i === 1 ? '<button class="btn" type="button" data-res="3">Resultado 3 →</button>' : ''}<button class="btn" type="button" data-to="p-conclusiones" data-cc="${i}">Conclusión ${k} →</button></div>`;
   $$('#objBox [data-res]').forEach(b => b.onclick = () => { setRes(+b.dataset.res - 1); goId('p-resultados'); });
@@ -1422,8 +1439,8 @@ $('#seq').innerHTML = [['Extraer y caracterizar', 'humedad y amilosa'], ['Carbox
 /* ---- H7 variables ---- */
 const VARS = [['Concentración de almidón', 'Es el factor de estudio: puede aumentar la remoción y la solubilidad a la vez.', 'Apostolidis et al. (2021); Choque-Quispe et al. (2022)'], ['Relación almidón : entrecruzante', 'Si cambia junto con el almidón, se confunden dos efectos.', 'Inferencia del equipo'], ['pH del ensayo', 'Controla la protonación de los grupos y la precipitación del plomo.', 'Choque-Quispe et al. (2022); Guo et al. (2026)'], ['Concentración inicial de Pb', 'Del orden del ECA para el agua real; más alta para estimar la capacidad.', 'MINAM (2017); Ramos-Guivar et al. (2023)'], ['Iones competidores', 'Cd, Zn, Cu y Fe están presentes en la cuenca.', 'Custodio et al. (2020); Orellana-Mendoza et al. (2026)'], ['Técnica analítica', 'Debe cuantificar por debajo de 0,05 mg/L: ICP-MS, ICP-OES o absorción atómica con horno de grafito.', 'U.S. EPA (1994)'], ['Muestreo de agua', 'Puntos georreferenciados, preservación y cadena de custodia.', 'ANA (2016)'], ['Manejo de residuos', 'La remoción traslada el plomo al hidrogel; no lo elimina.', 'Principio general de adsorción']];
 const VG = ['[ ]', ':', 'pH', 'C₀', 'M²⁺', 'LQ', '⌖', '♻'];
-$('#vgrid').innerHTML = VARS.map(([t, b, s], i) => `<button class="vc" type="button" aria-expanded="false"><span class="ck"></span><span class="n">${String(i + 1).padStart(2, '0')}</span><span class="t">${t}</span><span class="g">${VG[i]}</span><span class="b">${b}</span><span class="s">${s}</span></button>`).join('');
-$$('#vgrid .vc').forEach(b => b.onclick = () => { b.classList.toggle('open'); b.setAttribute('aria-expanded', b.classList.contains('open')); $('#varCount').textContent = `${$$('#vgrid .vc.open').length} de 8 revisadas`; });
+$('#vgrid').innerHTML = VARS.map(([t, b, s], i) => `<button class="vc" type="button" aria-expanded="false"><span class="ck"></span><span class="n">${String(i + 1).padStart(2, '0')}</span><span class="t">${t}</span><span class="g">${VG[i]}</span><span class="b">${b}</span><span class="s">${s.split('; ').map(x => x.includes('(') ? '<cite>' + x + '</cite>' : '<span class="own">' + x + '</span>').join(' ')}</span><span class="bl" aria-hidden="true">${'<i></i>'.repeat(7)}</span></button>`).join('');
+$$('#vgrid .vc').forEach(b => b.onclick = () => { b.classList.toggle('open'); b.classList.remove('reveal'); if (b.classList.contains('open') && !RM) { void b.offsetWidth; b.classList.add('reveal'); } b.setAttribute('aria-expanded', b.classList.contains('open')); $('#varCount').textContent = `${$$('#vgrid .vc.open').length} de 8 revisadas`; });
 
 /* ---- VII Gantt ---- */
 const GT = [[1, 2, 'Revisión de literatura y definición del problema', 'Estudiantes y docente', 'Matriz de problema y objetivos', 'leaf'], [3, 4, 'Marco teórico y diseño metodológico', 'Estudiantes', 'Borrador del proyecto', 'iodine'], [5, 6, 'Presentación y validación; cierre de la matriz previa (28 de setiembre)', 'Estudiantes y docente', 'Proyecto validado y matriz de fuentes', 'iodine'], [7, 10, 'Recolección y organización de la información', 'Estudiantes', 'Matriz de extracción', 'iodine'], [11, 13, 'Búsqueda final en PubMed (9 y 17 de noviembre), análisis y propuesta', 'Estudiantes y docente', 'Informe de resultados', 'ochre'], [14, 15, 'Informe final, video y página web', 'Estudiantes', 'Informe final y materiales de exposición', 'minium'], [16, 16, 'Socialización: presentación pública', 'Estudiantes y Unidad de Investigación', 'Exposición y evaluación final', 'minium']];
@@ -1443,6 +1460,17 @@ setGt(4);
 const CONC = [['Plomo en la cuenca', 'La literatura documenta plomo en el agua, el suelo y la cadena alimentaria del tramo del Mantaro en Junín, con puntos que superaron el ECA de categoría 3; ningún estudio equivale a un diagnóstico actual de toda la cuenca.'], ['Rutas de síntesis', 'Los hidrogeles de almidón remueven plomo por tres familias de rutas; las capacidades más altas son de materiales compuestos, y los valores no son comparables entre estudios porque sus condiciones difieren.'], ['Almidón de A. altilis', 'El almidón de <i>A. altilis</i> está caracterizado y puede entrecruzarse, pero no se halló ningún estudio que lo use como hidrogel adsorbente de plomo; la única evidencia de la especie frente al plomo es su cáscara.'], ['Concentración de almidón', 'Aumentar la concentración de almidón puede mejorar la remoción y empeorar la estabilidad, por lo que ambas deben medirse juntas.'], ['Ruta y variables', 'Se propone carboximetilar el almidón de <i>A. altilis</i> y entrecruzarlo con ácido cítrico, con ocho variables de control para una validación experimental futura.']];
 $('#concl').innerHTML = CONC.map(([o, t], i) => `<div class="cr" data-i="${i}"><button class="stone" type="button" data-i="${i}" aria-label="Ir al objetivo ${OBJ[i][0]}">${OBJ[i][0]}</button><span class="o">OBJETIVO ${OBJ[i][0].toUpperCase()}<br>${o}</span><p>${t}</p></div>`).join('');
 $$('#concl .stone').forEach(b => b.onclick = () => { setObj(+b.dataset.i); goId('p-objetivos'); });
+function rockSVG(seed) {
+  const r = mulberry(seed * 97 + 13), n = 11 + (seed % 3), P = [];
+  for (let k = 0; k < n; k++) { const a = (k + (r() - .5) * .45) / n * Math.PI * 2 - Math.PI / 2, rad = (k % 2 ? 37 + r() * 5 : 44 + r() * 6) * (1 + .08 * Math.sin(a * 2 + seed)); P.push([50 + Math.cos(a) * rad * 1.06, 52 + Math.sin(a) * rad * .94]); }
+  const pts = P.map(p => p.map(v => v.toFixed(1)).join(',')).join(' ');
+  const cx = 44 + r() * 12, cy = 44 + r() * 12, f = [0, 3, 7].map(i => P[(i + seed) % n]);
+  const fac = f.map(([x, y]) => `M${x.toFixed(1)},${y.toFixed(1)} L${(cx + (x - cx) * .45).toFixed(1)},${(cy + (y - cy) * .45).toFixed(1)}`).join(' ');
+  const sh = P.filter((_, i) => i >= Math.floor(n * .35) && i <= Math.floor(n * .75)).map(p => p.map(v => v.toFixed(1)).join(',')).join(' ');
+  return `<svg viewBox="0 0 100 100" aria-hidden="true"><polygon class="rk" points="${pts}"/><polygon class="sh" points="${cx.toFixed(1)},${(cy + 8).toFixed(1)} ${sh}"/><path class="fc" d="${fac}"/></svg>`;
+}
+$$('.stone').forEach((b, i) => { const L = b.textContent; b.innerHTML = rockSVG((+b.dataset.i || 0) + (b.closest('#concl') ? 11 : 3)) + `<span>${L}</span>`; });
+function setPaths(fr) { $$('#stones .path').forEach((p, j) => p.style.setProperty('--p', clamp(fr - j, 0, 1).toFixed(3))); }
 function setConc(i) { $$('#concl .cr').forEach((r, j) => r.classList.toggle('on', j === i)); }
 
 /* ---- IX referencias ---- */
@@ -1619,7 +1647,7 @@ $('#matPlay').onclick = () => { if (matAuto) { matAuto = false; $('#matPlay').te
 setMat(0);
 const matS = Scene($('#cvMat'), S => {
   const g = S.g, W = S.w, H = S.h, dt = S.dt || 0; matT += RM ? 30 : dt; const t = matT, M = MATD[matI], k = C();
-  if (matAuto && t > 13.5) { if (matI < 4) setMat(matI + 1, true); else { matAuto = false; $('#matPlay').textContent = '▶ Ver los cinco'; } }
+  if (matAuto && t > (auto ? 7.6 : 13.5)) { if (matI < 4) setMat(matI + 1, true); else { matAuto = false; $('#matPlay').textContent = '▶ Ver los cinco'; } }
   const cx = W * .5, cy = H * .47, sc = Math.min(W * .22, H * .28) * (M.key === 'alca' ? .9 : 1);
   const m = M.gel ? ease((t - 2.2) / 3.6) : 0, hyp = !!M.hyp;
   const P = mmorph(SHAPES[M.key], M.gel ? GELS[M.key] : null, m);
@@ -1684,6 +1712,26 @@ const clock = s => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(
 function tickClock(dt) { if (readMode) return; tTotal += dt; tPage += dt; const n = $('#notes'); if (n.hidden) return; const el = $('#nClock'); if (el) el.innerHTML = `total <b>${clock(tTotal)}</b> · esta página <b class="${tPage > 45 ? 'late' : ''}">${clock(tPage)}</b>`; }
 $('#nClock').onclick = () => { tTotal = 0; tPage = 0; };
 
+/* ---- avance automático de las opciones durante los 40 s ---- */
+let autoK = -1;
+const fire = (el, ev = 'input') => el && el.dispatchEvent(new Event(ev));
+const AUTOSTEP = {
+  'p-problema': [4, k => { mapSel = ['oroya', 'jauja', 'sincos', 'rio'][k]; drawMap(); }],
+  'p-objetivos': [5, k => setObj(k)],
+  'p-hipotesis': [2, k => { if ((k === 1) !== anaOn) $('#anaBtn').click(); }],
+  'p-hidrogel': [4, k => $$('#zoomTabs button')[k].click()],
+  'p-sintesis': [7, k => { stopPlay(); setSyn(k); }],
+  'p-captura': [4, k => { const r = $('#phR'); r.value = [1, 2.5, 4, 6.2][k]; fire(r); const c = $('#compT'); if (c.checked !== (k === 2)) { c.checked = k === 2; fire(c, 'change'); } }],
+  'p-medir': [4, k => $$('#presets button')[k].click()],
+  'p-limites': [4, k => { limSel = [6, 5, 1, 3][k]; drawRuler(); limText(); }],
+  'p-metodo': [5, k => setStr([0, 1, 3, 5, 6][k])],
+  'p-comparar': [2, k => $$('[data-cv]')[k].click()],
+  'p-balance': [8, k => { const r = $('#stR'); r.value = (.08 + k * .12).toFixed(2); drawBal(); }],
+  'p-resultados': [5, k => setRes(k)],
+  'p-vacio': [5, k => { vSel = ['BC', 'AC', 'AB', 'A', 'ABC'][k]; drawVenn(); }],
+  'p-variables': [8, k => { const c = $$('#vgrid .vc'); if (k === 0) c.forEach(x => x.classList.remove('open')); c[k].click(); }],
+  'p-crono': [7, k => setGt(k)],
+};
 /* ---------------- activación y bucle ---------------- */
 const active = new Set();
 function activate(s) {
@@ -1699,6 +1747,9 @@ function loop(now) {
   zoomT = Math.min(1, zoomT + dt * 2);
   scenes.forEach(S => { if (!active.has(S) && !readMode) return; if (readMode) { const r = S.canvas.getBoundingClientRect(); if (r.bottom < 0 || r.top > innerHeight) return; } S.dt = RM ? 10 : dt; S.t += RM ? 0 : dt; S.paint(); });
   tickClock(dt);
+  if (auto && !readMode) { const sid = slides[cur].id, A = AUTOSTEP[sid];
+    if (A) { const n = A[0], stp = 38 / n, k = Math.min(n - 1, Math.floor(autoT / stp)); if (k !== autoK) { autoK = k; A[1](k); } if (sid === 'p-objetivos') setPaths(Math.min(4, autoT / stp)); }
+  }
   if (auto && !readMode) { autoT += dt; $('#autobar').style.width = (autoT / 40 * 100) + '%'; if (autoT >= 40) { autoT = 0; if (cur < slides.length - 1) go(cur + 1); else toggleAuto(); } } else $('#autobar').style.width = '0';
   requestAnimationFrame(loop);
 }
