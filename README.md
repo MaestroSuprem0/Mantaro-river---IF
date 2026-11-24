@@ -8,6 +8,7 @@ Integrantes: Samuel Benjamín Barrón Márquez, Isai Severiano Felix Sopla, Luca
 ## Páginas
 - `index.html` · **Parte 1:** la cuenca del Mantaro en 3D, los datos de plomo y el hidrogel a escala molecular.
 - `proceso.html` · **Parte 2:** cómo se sintetiza un hidrogel de almidón (receta de Keirudin et al., 2020) y qué retienen la papa, el sagú, la yuca y la alcachofa; el árbol de pan como hipótesis. Estilo claro en tonos verdes.
+- `cuaderno.html` · **Cuaderno final:** la investigación completa en 26 páginas, en tono de libro (capítulos I a IX, hallazgos y anexos), con animaciones: acercamiento del satélite al río y a los iones, síntesis paso a paso, efecto del pH, calculadora de remoción, comparación de materiales, embudo PRISMA y mapa del vacío. Se hojea como presentación (flechas, N para notas del orador, F pantalla completa, A avance cada 40 s) o se lee en el celular. Funciona sin servidor: basta abrir el archivo.
 
 ## Cómo usarlo
 - **Recorrer bajando:** cada sección cambia la escena.
@@ -17,7 +18,7 @@ Integrantes: Samuel Benjamín Barrón Márquez, Isai Severiano Felix Sopla, Luca
 
 ## Publicar en GitHub Pages
 1. Crear un repositorio público en GitHub (por ejemplo `plomo-mantaro`).
-2. Subir todo el contenido de esta carpeta: `index.html`, `app.js`, `proceso.html`, `proceso.js`, la carpeta `assets/` y `.nojekyll`.
+2. Subir todo el contenido de esta carpeta: `index.html`, `app.js`, `proceso.html`, `proceso.js`, `cuaderno.html`, la carpeta `assets/` y `.nojekyll`.
 3. En el repositorio: **Settings → Pages → Build and deployment → Source: Deploy from a branch**, rama `main`, carpeta `/ (root)` → **Save**.
 4. En uno o dos minutos la página queda en `https://TU-USUARIO.github.io/plomo-mantaro/`.
 
