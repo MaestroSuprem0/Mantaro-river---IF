@@ -19,7 +19,7 @@
   --display:"Fraunces", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
   --body:"Source Serif 4", "Iowan Old Style", Georgia, serif;
   --mono:"IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
-  --fs-h1:68px; --fs-h2:54px; --fs-h3:33px; --fs-lede:28px; --fs-body:23px; --fs-small:20px; --fs-tiny:17px;
+  --fs-h1:72px; --fs-h2:62px; --fs-h3:37px; --fs-lede:31px; --fs-body:26px; --fs-small:23px; --fs-tiny:20px;
   color-scheme:light;
 }
 @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
@@ -36,13 +36,13 @@ body{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:
 h1,h2,h3{font-family:var(--display);font-weight:400;margin:0;line-height:1.06;text-wrap:balance;font-variation-settings:"SOFT" 60,"WONK" 0}
 h1{font-size:var(--fs-h1)} h2{font-size:var(--fs-h2)} h3{font-size:var(--fs-h3)}
 p{margin:0}
-.eyebrow{font-family:var(--mono);font-size:var(--fs-tiny);letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft)}
+.eyebrow{font-family:var(--mono);font-size:21px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft)}
 .lede{font-size:var(--fs-lede);line-height:1.45;max-width:60ch}
 .small{font-size:var(--fs-small);line-height:1.45}
 .tiny{font-size:var(--fs-tiny);line-height:1.4;color:var(--ink-soft)}
 cite{font-style:normal;font-family:var(--mono);font-size:.8em;font-weight:600;letter-spacing:.01em;color:var(--iodine);background:color-mix(in srgb,var(--iodine) 12%,transparent);padding:.06em .42em;border-radius:4px;-webkit-box-decoration-break:clone;box-decoration-break:clone;margin:0 .08em}
 .own{font-family:var(--mono);font-size:.8em;font-weight:600;color:var(--leaf);background:color-mix(in srgb,var(--leaf) 14%,transparent);padding:.06em .42em;border-radius:4px;-webkit-box-decoration-break:clone;box-decoration-break:clone}
-cite.big,.own.big{font-size:21px;padding:.25em .6em}
+cite.big,.own.big{font-size:23px;padding:.25em .6em}
 .pb{color:var(--minium)} .st{color:var(--iodine)} .ci{color:var(--ochre)} .lf{color:var(--leaf)}
 b{font-weight:600}
 .row{display:flex;gap:40px;min-width:0}
@@ -63,18 +63,18 @@ button:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid var(-
   box-shadow:0 30px 80px var(--shadow), inset 0 0 120px color-mix(in srgb,var(--moss) 18%,transparent)}
 .stage::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:var(--grain);mix-blend-mode:multiply;z-index:5;
   background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .25  0 0 0 0 .3  0 0 0 0 .2  0 0 0 .5 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>")}
-.slide{position:absolute;inset:0 0 64px 0;padding:54px 84px 28px;opacity:0;visibility:hidden;transition:opacity .45s ease, visibility 0s linear .45s;display:flex;flex-direction:column;gap:18px}
+.slide{position:absolute;inset:0 0 64px 0;padding:42px 66px 20px;opacity:0;visibility:hidden;transition:opacity .45s ease, visibility 0s linear .45s;display:flex;flex-direction:column;gap:18px}
 .slide.active{opacity:1;visibility:visible;transition:opacity .45s ease}
 .slide.active .in{animation:rise .7s cubic-bezier(.2,.8,.2,1) both;animation-delay:calc(var(--d,0) * 1s)}
 @keyframes rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
 .sn{display:none}
-.folio{position:absolute;right:84px;top:26px;font-family:var(--mono);font-size:16px;letter-spacing:.12em;color:var(--ink-soft)}
+.folio{position:absolute;right:66px;top:18px;font-family:var(--mono);font-size:19px;letter-spacing:.12em;color:var(--ink-soft)}
 
 /* barra inferior */
 .chrome{position:absolute;left:0;right:0;bottom:0;height:64px;display:flex;align-items:center;gap:16px;padding:0 22px;border-top:1px solid var(--rule);
   background:color-mix(in srgb,var(--paper-2) 85%,transparent);z-index:6}
-.chrome .count{font-family:var(--mono);font-size:18px;min-width:86px;white-space:nowrap;font-variant-numeric:tabular-nums}
-.chrome .ttl{font-family:var(--display);font-style:italic;font-size:21px;color:var(--ink-soft);width:300px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.chrome .count{font-family:var(--mono);font-size:20px;min-width:86px;white-space:nowrap;font-variant-numeric:tabular-nums}
+.chrome .ttl{font-family:var(--display);font-style:italic;font-size:24px;color:var(--ink-soft);width:330px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 #chain{flex:1 1 auto;height:56px;min-width:0}
 #chain g.u{cursor:pointer}
 .navb{white-space:nowrap;height:44px;min-width:44px;border-radius:999px;border:1.5px solid var(--ink);background:transparent;cursor:pointer;display:grid;place-items:center;padding:0 14px;font-family:var(--mono);font-size:16px}
@@ -101,23 +101,23 @@ button:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid var(-
 
 /* ---------- piezas ---------- */
 .card{background:color-mix(in srgb,var(--card) 90%,transparent);border:1px solid var(--rule);border-radius:4px;padding:20px 24px;box-shadow:0 2px 0 var(--hair)}
-.tag{display:inline-block;font-family:var(--mono);font-size:15px;letter-spacing:.1em;text-transform:uppercase;padding:3px 10px;border:1px solid currentColor;border-radius:999px}
-.btn{font-family:var(--mono);font-size:17px;letter-spacing:.04em;background:transparent;border:1.5px solid var(--ink);border-radius:999px;padding:7px 16px;cursor:pointer}
+.tag{display:inline-block;font-family:var(--mono);font-size:17px;letter-spacing:.1em;text-transform:uppercase;padding:3px 10px;border:1px solid currentColor;border-radius:999px}
+.btn{font-family:var(--mono);font-size:19px;letter-spacing:.04em;background:transparent;border:1.5px solid var(--ink);border-radius:999px;padding:7px 16px;cursor:pointer}
 .btn:hover,.btn[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
 .steps{display:flex;gap:8px;flex-wrap:wrap}
-.steps button{font-family:var(--mono);font-size:17px;border:1px solid var(--rule);background:transparent;color:var(--ink-soft);border-radius:999px;padding:6px 12px;cursor:pointer}
+.steps button{font-family:var(--mono);font-size:19px;border:1px solid var(--rule);background:transparent;color:var(--ink-soft);border-radius:999px;padding:6px 12px;cursor:pointer}
 .steps button.on{background:var(--leaf);border-color:var(--leaf);color:var(--paper)}
 .steps button.done{color:var(--leaf);border-color:var(--leaf)}
 .figbox{position:relative;min-height:0;border:1px solid var(--rule);background:color-mix(in srgb,var(--card) 70%,transparent);border-radius:4px}
 .figbox canvas,.figbox svg{display:block;width:100%;height:100%}
-.chip{display:inline-flex;align-items:baseline;gap:6px;font-family:var(--mono);font-size:17px;padding:4px 10px;border-radius:4px;background:color-mix(in srgb,var(--ochre) 14%,transparent);color:var(--ink)}
+.chip{display:inline-flex;align-items:baseline;gap:6px;font-family:var(--mono);font-size:19px;padding:4px 10px;border-radius:4px;background:color-mix(in srgb,var(--ochre) 14%,transparent);color:var(--ink)}
 .chip b{font-weight:600}
 
 /* portada */
 .cover{justify-content:space-between}
 .cover h1{font-size:calc(var(--fs-h1) * .84);line-height:1.1;max-width:22ch;font-weight:350}
 .cover h1 i{font-style:italic}
-.meta{font-family:var(--mono);font-size:19px;line-height:1.7;color:var(--ink-soft)}
+.meta{font-family:var(--mono);font-size:21px;line-height:1.7;color:var(--ink-soft)}
 .cover .fruitwrap{position:absolute;right:70px;top:70px;width:640px;height:640px}
 .fruit .half{transition:transform 1.4s cubic-bezier(.6,0,.2,1);transform-box:fill-box;transform-origin:center}
 .fruit.open .left{transform:translate(-118px,8px) rotate(-12deg)}
@@ -133,8 +133,8 @@ button:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid var(-
 .toc{display:grid;grid-template-columns:1fr 1fr;gap:6px 70px;max-width:1300px}
 .toc button{display:grid;grid-template-columns:76px 1fr auto;align-items:baseline;gap:14px;text-align:left;background:transparent;border:0;border-bottom:1px solid var(--rule);padding:12px 4px;cursor:pointer}
 .toc button .n{font-family:var(--display);font-size:34px;color:var(--leaf)}
-.toc button .t{font-family:var(--display);font-size:30px}
-.toc button .s{font-family:var(--mono);font-size:15px;color:var(--ink-soft)}
+.toc button .t{font-family:var(--display);font-size:34px}
+.toc button .s{font-family:var(--mono);font-size:17px;color:var(--ink-soft)}
 .toc button[disabled]{cursor:default;opacity:.45}
 .toc button:not([disabled]):hover .t{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:5px}
 
@@ -153,12 +153,12 @@ button:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid var(-
 .chapnum{font-family:var(--display);font-size:120px;line-height:.85;color:var(--leaf);font-weight:300}
 .ctrl{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
 input[type=range]{accent-color:var(--leaf);width:100%}
-.readout{font-size:20px;line-height:1.5}
+.readout{font-size:23px;line-height:1.5}
 .bigval{font-family:var(--display);font-size:56px;line-height:1;font-variant-numeric:tabular-nums}
-.calc{display:grid;grid-template-columns:150px 1fr 110px 56px;gap:10px 14px;align-items:center;font-family:var(--mono);font-size:18px}
+.calc{display:grid;grid-template-columns:150px 1fr 110px 56px;gap:10px 14px;align-items:center;font-family:var(--mono);font-size:20px}
 .calc input[type=number]{width:100%;font:inherit;background:var(--card);color:var(--ink);border:1px solid var(--rule);border-radius:4px;padding:5px 8px;font-variant-numeric:tabular-nums}
 .verdict{display:flex;gap:10px;flex-wrap:wrap}
-.verdict span{font-family:var(--mono);font-size:17px;padding:5px 10px;border-radius:999px;border:1.5px solid currentColor}
+.verdict span{font-family:var(--mono);font-size:19px;padding:5px 10px;border-radius:999px;border:1.5px solid currentColor}
 .ok{color:var(--leaf)} .no{color:var(--minium)}
 .ruler{position:relative}
 .mk{cursor:pointer}
@@ -208,8 +208,13 @@ html.read .stampo{position:static;display:inline-block;margin-top:14px}
 .mag span{display:block;font-size:15px;opacity:.8;margin-top:2px}
 #rioR{accent-color:var(--leaf)}
 @media (max-width:700px){html.read .mag{font-size:12px;padding:5px 8px;right:8px;top:8px}html.read .mag b{font-size:16px}html.read .mag span{font-size:11px}}
+#p-hidrogel .lede{font-size:26px}
+#p-balance .card{padding:14px 20px}
+#p-metodo .bigval{font-size:34px!important}
+#p-pregunta .bigq{font-size:44px}
+#p-comparar .card{padding:16px 22px}
 /* ---------- fase 2 ---------- */
-.bigq{font-family:var(--display);font-size:42px;line-height:1.22;max-width:1250px;font-weight:350}
+.bigq{font-family:var(--display);font-size:47px;line-height:1.22;max-width:1250px;font-weight:350}
 .stones{display:flex;align-items:center;margin:4px 0}
 .stones .path{flex:1;height:3px;min-width:12px;position:relative;background:repeating-linear-gradient(90deg,var(--moss) 0 10px,transparent 10px 18px)}
 .stones .path::after{content:"";position:absolute;left:0;top:-1px;height:5px;border-radius:3px;width:calc(var(--p,0) * 100%);background:var(--leaf)}
@@ -228,10 +233,10 @@ html.read .stampo{position:static;display:inline-block;margin-top:14px}
 .ogrid .eyebrow{margin-bottom:6px}
 .legend{display:flex;flex-wrap:wrap;gap:6px 18px}
 .legend i{display:inline-block;width:12px;height:12px;border-radius:2px;margin-right:6px;vertical-align:-1px}
-.bars{display:flex;flex-direction:column;gap:10px}
+.bars{display:flex;flex-direction:column;gap:5px}
 .br{display:grid;grid-template-columns:300px 1fr 150px;gap:14px;align-items:center}
-.br .nm{font-size:19px;line-height:1.25}
-.br .nm small{display:block;font-family:var(--mono);font-size:14px;color:var(--ink-soft)}
+.br .nm{font-size:21px;line-height:1.25}
+.br .nm small{display:block;font-family:var(--mono);font-size:16px;color:var(--ink-soft)}
 .br .tr{position:relative;height:24px;background:var(--hair);border-radius:2px}
 .br .fl{position:absolute;top:0;bottom:0;left:0;border-radius:2px;transition:left .6s ease,width .6s ease}
 .br .fl.q{border:1.5px dashed var(--minium);background:transparent;display:grid;place-items:center;font-family:var(--mono);color:var(--minium)}
@@ -240,38 +245,38 @@ html.read .stampo{position:static;display:inline-block;margin-top:14px}
 .ions{display:flex;flex-wrap:wrap;gap:12px}
 .ion{display:flex;align-items:center;gap:10px;padding:6px 16px 6px 6px;border:1px solid var(--rule);border-radius:999px;background:var(--card)}
 .ion b{display:grid;place-items:center;width:44px;height:44px;border-radius:50%;font-family:var(--mono);font-weight:600;color:var(--paper)}
-.ion span{font-size:19px;line-height:1.2}
+.ion span{font-size:22px;line-height:1.2}
 .ion span small{display:block;font-family:var(--mono);font-size:14px;color:var(--ink-soft)}
 .lims{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:10px}
-.lims li{position:relative;padding-left:36px;font-size:20px;line-height:1.4}
+.lims li{position:relative;padding-left:36px;font-size:23px;line-height:1.4}
 .lims li::before{content:"!";position:absolute;left:0;top:1px;width:22px;height:22px;border-radius:50%;border:1.5px solid var(--ochre);color:var(--ochre);font-family:var(--mono);font-size:13px;display:grid;place-items:center}
 .rtabs{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
 .rtab{text-align:left;background:var(--card);border:1px solid var(--rule);border-radius:4px;padding:14px 16px;cursor:pointer;display:flex;flex-direction:column;gap:6px}
 .rtab .n{font-family:var(--display);font-size:38px;line-height:1;color:var(--leaf)}
-.rtab .t{font-family:var(--display);font-size:24px;line-height:1.15}
-.rtab .k{font-size:17px;line-height:1.35;color:var(--ink-soft)}
+.rtab .t{font-family:var(--display);font-size:27px;line-height:1.15}
+.rtab .k{font-size:19px;line-height:1.35;color:var(--ink-soft)}
 .rtab.on{border-color:var(--leaf);box-shadow:inset 0 -4px 0 var(--leaf)}
-table.mt{width:100%;border-collapse:collapse;font-size:18px;line-height:1.35}
-.mt th{font-family:var(--mono);font-weight:500;font-size:14px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);text-align:left;border-bottom:1.5px solid var(--ink);padding:6px 12px 6px 0}
+table.mt{width:100%;border-collapse:collapse;font-size:20px;line-height:1.35}
+.mt th{font-family:var(--mono);font-weight:500;font-size:16px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);text-align:left;border-bottom:1.5px solid var(--ink);padding:6px 12px 6px 0}
 .mt td{border-bottom:1px solid var(--rule);padding:7px 12px 7px 0;vertical-align:top}
 .routes{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
 .route{position:relative;background:var(--card);border:1px solid var(--rule);border-radius:4px;padding:16px 18px}
 .route.pick{border:2px solid var(--leaf)}
 .route h3{font-size:23px;margin:8px 0 10px}
-.route dl{display:grid;grid-template-columns:140px 1fr;gap:6px 12px;margin:0;font-size:18px;line-height:1.35}
-.route dt{font-family:var(--mono);font-size:14px;color:var(--ink-soft);padding-top:2px}
+.route dl{display:grid;grid-template-columns:140px 1fr;gap:6px 12px;margin:0;font-size:20px;line-height:1.35}
+.route dt{font-family:var(--mono);font-size:16px;color:var(--ink-soft);padding-top:2px}
 .route dd{margin:0}
 .route .stampo{top:14px;bottom:auto;right:14px;font-size:12px}
 .seq{display:flex}
 .seq div{flex:1;background:color-mix(in srgb,var(--leaf) 14%,var(--card));padding:12px 14px 12px 32px;clip-path:polygon(0 0,calc(100% - 18px) 0,100% 50%,calc(100% - 18px) 100%,0 100%,18px 50%);margin-right:-12px}
 .seq div:first-child{clip-path:polygon(0 0,calc(100% - 18px) 0,100% 50%,calc(100% - 18px) 100%,0 100%);padding-left:16px}
-.seq b{display:block;font-size:20px}
+.seq b{display:block;font-size:22px}
 .seq span{font-family:var(--mono);font-size:15px;color:var(--ink-soft)}
 .vgrid{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:1fr;gap:16px;flex:1;min-height:0}
 .vc{text-align:left;background:var(--card);border:1px solid var(--rule);border-radius:4px;padding:18px 20px;cursor:pointer;display:flex;flex-direction:column;gap:8px;position:relative;transition:border-color .2s}
 .vc .n{font-family:var(--mono);font-size:15px;color:var(--ink-soft)}
-.vc .t{font-family:var(--display);font-size:27px;line-height:1.15;padding-right:26px}
-.vc .b{font-size:19px;line-height:1.4;display:none}
+.vc .t{font-family:var(--display);font-size:30px;line-height:1.15;padding-right:26px}
+.vc .b{font-size:21px;line-height:1.4;display:none}
 .vc .s{font-size:19px;color:var(--ink);display:none;margin-top:auto}
 .vc.open{border-color:var(--leaf)}
 .vc .bl{position:absolute;inset:-1px;display:flex;pointer-events:none;z-index:2;border-radius:4px;overflow:hidden}
@@ -284,16 +289,16 @@ table.mt{width:100%;border-collapse:collapse;font-size:18px;line-height:1.35}
 .vc.open .b,.vc.open .s{display:block}
 .vc .g{margin-top:auto;font-family:var(--display);font-size:64px;line-height:1;color:color-mix(in srgb,var(--moss) 55%,transparent)}
 .vc.open .g{display:none}
-#p-pregunta .card .small,#p-aguareal .small{font-size:22px}
-#p-aguareal .lims li{font-size:22px}
-#objBox p{font-size:23px;line-height:1.45}
+#p-pregunta .card .small,#p-aguareal .small{font-size:25px}
+#p-aguareal .lims li{font-size:24px}
+#objBox p{font-size:26px;line-height:1.45}
 #p-objetivos .stones{margin:18px 0}
 .vc .ck{position:absolute;right:16px;top:16px;width:22px;height:22px;border-radius:50%;border:1.5px solid var(--leaf);display:grid;place-items:center;font-size:13px}
 .vc.open .ck{background:var(--leaf)}
 .vc.open .ck::after{content:"✓";color:var(--paper)}
 .gwrap{overflow-x:auto}
-.gantt{display:grid;grid-template-columns:420px repeat(16,1fr);min-width:1000px;row-gap:8px;font-size:19px;align-items:center}
-.gantt .mh{font-family:var(--mono);font-size:15px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft);border-bottom:1.5px solid var(--ink);padding:0 0 4px 4px;border-left:1px solid var(--rule)}
+.gantt{display:grid;grid-template-columns:420px repeat(16,1fr);min-width:1000px;row-gap:8px;font-size:22px;align-items:center}
+.gantt .mh{font-family:var(--mono);font-size:17px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft);border-bottom:1.5px solid var(--ink);padding:0 0 4px 4px;border-left:1px solid var(--rule)}
 .gantt .wk{font-family:var(--mono);font-size:15px;color:var(--ink-soft);text-align:center}
 .gantt .lb{padding-right:16px;line-height:1.25;cursor:pointer}
 .gantt .gb{height:34px;border-radius:3px;cursor:pointer;transform-origin:left;margin:0 2px}
@@ -304,17 +309,17 @@ table.mt{width:100%;border-collapse:collapse;font-size:18px;line-height:1.35}
 .cr{display:grid;grid-template-columns:70px 240px 1fr;gap:22px;align-items:center;padding:12px 10px;border-bottom:1px solid var(--rule);border-radius:4px;transition:background .3s}
 .cr.on{background:color-mix(in srgb,var(--leaf) 12%,transparent)}
 .cr .stone{width:64px;height:64px;font-size:30px}
-.cr .o{font-family:var(--mono);font-size:15px;color:var(--ink-soft);letter-spacing:.04em;line-height:1.5}
-.cr p{font-size:22px;line-height:1.42}
+.cr .o{font-family:var(--mono);font-size:17px;color:var(--ink-soft);letter-spacing:.04em;line-height:1.5}
+.cr p{font-size:25px;line-height:1.42}
 .refq{font:inherit;font-size:19px;background:var(--card);color:var(--ink);border:1px solid var(--rule);border-radius:999px;padding:8px 18px;width:360px;margin-bottom:12px}
-#p-refs .refs{column-count:2;column-gap:44px;font-size:17px;line-height:1.38;flex:1;min-height:0;overflow:auto;padding-right:8px}
+#p-refs .refs{column-count:2;column-gap:44px;font-size:19px;line-height:1.38;flex:1;min-height:0;overflow:auto;padding-right:8px}
 #p-refs .refs p{margin-bottom:8px}
 .linkc{display:block;text-decoration:none;color:inherit;transition:transform .2s,border-color .2s}
 .linkc:hover{transform:translateX(6px);border-color:var(--leaf)}
 .qrc{display:flex;align-items:center;gap:24px;justify-content:space-between}
 .qrc .qtx{display:block;min-width:0}
 .qr{flex:0 0 auto;width:150px;height:150px;border-radius:6px;box-shadow:0 0 0 1px var(--rule),0 3px 10px var(--shadow)}
-.qrbox{display:flex;align-items:center;gap:20px;font-size:21px;line-height:1.3}
+.qrbox{display:flex;align-items:center;gap:20px;font-size:24px;line-height:1.3}
 .qrbox .qr{width:150px;height:150px}
 html.read .qr{width:120px;height:120px}
 .fn .fb{transform-box:fill-box;transform-origin:center}
@@ -439,7 +444,7 @@ html.read .row > .chapnum,html.read .row > .eyebrow,html.read .row > .tag,html.r
       <h2 class="in" style="--d:.1">Plomo en el agua, el suelo y la leche</h2>
       <p class="small in" style="--d:.2">No se conoce un nivel de exposición al plomo libre de efectos nocivos <cite>(OMS, 2026)</cite>. En el tramo de Junín, la minería y la metalurgia comparten cuenca con campos de cultivo y ganado. Los efectos de la minería dependen de cada cuenca, así que la mitigación debe adaptarse al lugar <cite>(Hammond et al., 2013)</cite>.</p>
       <div class="card in" style="--d:.3;padding:14px 18px">
-        <svg id="svgGlass" viewBox="0 0 560 190" role="img" aria-label="Tres vasos con 1, 5 y 19 puntos de plomo"></svg>
+        <svg id="svgGlass" viewBox="0 0 560 190" style="max-width:470px" role="img" aria-label="Tres vasos con 1, 5 y 19 puntos de plomo"></svg>
         <p class="tiny" style="margin-top:4px">Cada punto equivale a 0,01 mg/L. La muestra del Mantaro tiene 19 veces el valor para consumo y 3,8 veces el ECA de categoría 3: <span class="own">cálculo propio</span> con datos de <cite>Ramos-Guivar et al. (2023)</cite>.</p>
       </div>
     </div>
@@ -463,7 +468,6 @@ html.read .row > .chapnum,html.read .row > .eyebrow,html.read .row > .tag,html.r
     <div class="card grow"><span class="tag ci">Práctica</span><p class="small" style="margin-top:10px">Antes de gastar en reactivos y análisis, conviene saber qué ruta tiene más respaldo y qué variables hay que controlar.</p></div>
     <div class="card grow"><span class="tag pb">Social</span><p class="small" style="margin-top:10px">Interesa a quienes usan el agua para riego y ganado. No ofrece agua apta para consumo: da una base documentada para evaluar tratamientos.</p></div>
   </div>
-  <div class="ctrl in" style="--d:.4;margin-top:auto"><button class="btn" type="button" data-goid="p-objetivos">Los cinco problemas específicos están en el capítulo III →</button></div>
   <aside class="sn"><p>Esta es la pregunta que guía todo el trabajo. Tiene dos partes: qué se sabe de hidrogeles de almidón contra el plomo, y si eso alcanza para proponer una ruta con almidón de árbol de pan.</p><p>Las tres justificaciones. Ojo con la social: no prometemos agua potable; ofrecemos una base para decidir.</p></aside>
 </section>
 
@@ -486,7 +490,7 @@ html.read .row > .chapnum,html.read .row > .eyebrow,html.read .row > .tag,html.r
 <section class="slide" data-title="IV · Hipótesis" data-chap="IV" id="p-hipotesis">
   <span class="folio">CAPÍTULO IV</span>
   <div class="row" style="flex:1;gap:46px;min-height:0">
-    <div class="col" style="flex:0 0 600px;gap:16px">
+    <div class="col" style="flex:0 0 700px;gap:14px">
       <div class="chapnum in">IV</div>
       <h2 class="in" style="--d:.08">Hipótesis: un supuesto por comprobar</h2>
       <div class="card in" style="--d:.16;border-left:4px solid var(--ochre)"><div class="eyebrow">Planteamiento del equipo</div><p style="margin-top:8px;font-family:var(--display);font-size:24px;line-height:1.3">¿Hasta qué punto es aceptable suponer que es posible sintetizar un hidrogel a partir del almidón del árbol de pan (<i>Artocarpus altilis</i>) para la remoción de metales pesados como el plomo en la cuenca del río Mantaro, región Junín?</p></div>
@@ -518,7 +522,7 @@ html.read .row > .chapnum,html.read .row > .eyebrow,html.read .row > .tag,html.r
 <section class="slide" data-title="V · ¿Qué es un hidrogel de almidón?" data-chap="V" id="p-hidrogel">
   <span class="folio">CAPÍTULO V · 2 DE 6</span>
   <div class="row" style="flex:1;gap:50px;min-height:0">
-    <div class="col" style="flex:0 0 560px;gap:18px">
+    <div class="col" style="flex:0 0 680px;gap:14px">
       <div class="row" style="align-items:flex-end;gap:20px"><div class="chapnum in">V</div><div class="eyebrow in" style="--d:.05;padding-bottom:16px">Marco teórico</div></div>
       <h2 class="in" style="--d:.1">¿Qué es un hidrogel de almidón?</h2>
       <p class="lede in" style="--d:.2">Una <b>red polimérica tridimensional</b> que retiene agua sin disolverse. El almidón, formado por <span class="st">amilosa</span> y <span class="st">amilopectina</span>, se convierte en hidrogel por entrecruzamiento químico, por injerto de monómeros sintéticos o por métodos físicos <cite>(Ismail et al., 2013)</cite>.</p>
@@ -623,7 +627,7 @@ html.read .row > .chapnum,html.read .row > .eyebrow,html.read .row > .tag,html.r
 <section class="slide" data-title="VI · Metodología" data-chap="VI" id="p-metodo">
   <span class="folio">CAPÍTULO VI</span>
   <div class="row" style="flex:1;gap:44px;min-height:0">
-    <div class="col" style="flex:0 0 640px;gap:14px">
+    <div class="col" style="flex:0 0 800px;gap:12px">
       <div class="row" style="align-items:flex-end;gap:20px"><div class="chapnum in">VI</div><div class="eyebrow in" style="--d:.05;padding-bottom:16px">Metodología de búsqueda y selección</div></div>
       <h2 class="in" style="--d:.1">Una revisión de alcance</h2>
       <p class="small in" style="--d:.16">Estudio documental, cualitativo y exploratorio. Mapea la evidencia y señala vacíos; no combina resultados como un metaanálisis. Sigue, en lo aplicable, la guía PRISMA-ScR <cite>(Tricco et al., 2018)</cite>.</p>
@@ -669,12 +673,12 @@ html.read .row > .chapnum,html.read .row > .eyebrow,html.read .row > .tag,html.r
     <div class="col" style="flex:0 0 900px;gap:12px">
       <div class="ctrl in" style="--d:.1"><button class="btn" type="button" data-cv="q" aria-pressed="true">Capacidad · mg/g</button><button class="btn" type="button" data-cv="r" aria-pressed="false">Remoción · %</button></div>
       <div class="bars in" style="--d:.15" id="bars"></div>
-      <div class="legend in tiny" style="--d:.2"><span><i style="background:var(--iodine)"></i>hidrogel de almidón</span><span><i style="background:var(--ochre)"></i>compuesto: el almidón no actúa solo</span><span><i style="background:var(--moss)"></i>biomasa sin síntesis</span><span><i style="background:var(--minium)"></i>árbol de pan o agua del Mantaro</span></div>
     </div>
     <div class="col grow in" style="--d:.2;gap:14px">
-      <div class="card small"><b>Valores medidos en condiciones distintas.</b> Keirudin et al. (2020) midieron en condiciones optimizadas; los 900,25 mg/g de Hou et al. (2024) son un <b>parámetro del ajuste de Langmuir</b> con mucho plomo, no una medición directa.</div>
+      <div class="legend tiny" style="flex-direction:column;gap:6px"><span><i style="background:var(--iodine)"></i>hidrogel de almidón</span><span><i style="background:var(--ochre)"></i>compuesto: el almidón no actúa solo</span><span><i style="background:var(--moss)"></i>biomasa sin síntesis</span><span><i style="background:var(--minium)"></i>árbol de pan o agua del Mantaro</span></div>
+      <div class="card small"><b>Valores medidos en condiciones distintas.</b> <cite>Keirudin et al. (2020)</cite> midieron en condiciones optimizadas; los 900,25 mg/g de <cite>Hou et al. (2024)</cite> son un <b>parámetro del ajuste de Langmuir</b> con mucho plomo, no una medición directa.</div>
       <div class="card small" style="border-left:4px solid var(--minium)"><b>Lo que importa en el Mantaro.</b> El río tiene plomo en décimas o centésimas de mg/L. A esa concentración, <b>q</b> sale pequeño aunque el material sea bueno. El indicador útil es la concentración final frente al ECA.</div>
-      <p class="tiny">La tabla no ordena materiales de mejor a peor. El dato del agua del Mantaro es <span class="own">cálculo propio</span>, con 1 g de hidrogel por litro.</p>
+      <p class="tiny">No es un ranking de mejor a peor.</p>
     </div>
   </div>
   <aside class="sn"><p>Si comparamos solo los mg/g, el compuesto de tobermorita parece imbatible: 900 mg/g. Pero es un parámetro de modelo, con concentraciones altas. Y las cifras más altas son de compuestos, donde el almidón no trabaja solo.</p><p>La última barra es el punto clave: en agua del Mantaro, bajar de 0,19 a 0,05 mg/L con 1 g por litro da apenas 0,14 mg/g. Por eso miramos la concentración final y no la capacidad.</p></aside>
